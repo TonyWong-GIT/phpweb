@@ -1,0 +1,14 @@
+<?php 
+    echo '
+      <div id="mainPanle" region="center" border="true" border="false">
+		<div id="tabs" class="easyui-tabs"  fit="true" border="false" >
+                <div title="Home">
+				<div class="cs-home-remark">
+					
+				</div> <br>
+					
+		</div>
+		</div>
+        </div>
+';
+?>

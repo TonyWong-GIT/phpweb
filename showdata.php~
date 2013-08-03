@@ -1,0 +1,45 @@
+<?php
+	$main="";
+	$sql = "SELECT *  FROM keyword";
+	$sql .=" ORDER BY l.id DESC ";
+	$sql .="limit  ".rand(0,40).",25";
+	$count=getcount($sql);
+	$res= getall($sql);
+	if($count>0){		
+		$main .="<table class=\"list\" width=\"98%\" targettype=\"navTab\">";
+		$main .="<thead><tr>";	
+	    $main .="<th width=\"35%\">信息标题</th>";
+	    $main .="<th width=\"10%\">信息通道</th>";
+	    $main .="<th width=\"10%\">来源网站</th>";
+	    $main .="<th width=\"10%\">相应版块</th>";
+	    $main .="<th width=\"10%\">作者</th>";
+	    $main .="<th width=\"5%\">浏览数</th>";
+	    $main .="<th width=\"5%\">回帖数</th>";
+//	    $main .="<th width=\"15%\">信息发布时间</th>";
+		$main .="</tr>";	
+		$main .="</thead>";
+		$main .="<tbody>";
+		$i=0;
+		if(is_array($res)){
+			foreach($res as $row){		
+				$class = $i % 2 ==0?"":" class=\"trbg\"";	
+				$main .="<tr $class>";	
+				$main .="<td align=\"left\"><a href=\"".$row['url']."\" target=\"_new\">".$row['title']."</a></td>";
+				$main .="<td>".$row['module'] ." </td>";
+				$main .="<td>".$row['sitename'] ." </td>";
+				$main .="<td>".$row['forum'] ." </td>";
+				$main .="<td>".$row['author']." </td>";
+				$main .="<td>".$row['click']." </td>";
+				$main .="<td>".$row['reply']." </td>";
+			//	$main .="<td>".$row['publish_time']."  </td>";
+				$main .="</tr>";
+				$i++;
+			}
+		}                
+		$main .="</tbody>";
+		$main .="</table>";
+	}else{
+		$main .= "<center>没有数据</center>";
+	}
+	echo $main;
+?> 
