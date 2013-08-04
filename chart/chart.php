@@ -61,7 +61,7 @@ include("./Includes/FusionCharts.php");
 	$i=0;
 	while($t = mysql_fetch_array($result_url))
 	{	
-		$arrData[$i][1]=$t['time'];
+		$arrData[$i][1]=substr($t['time'],4);
 		$arrData[$i][2]=$t['number'];
 		$i=$i+1;	
 	}

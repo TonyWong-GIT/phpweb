@@ -55,7 +55,7 @@ include("./Includes/FusionCharts.php");
 	while($row=mysql_fetch_array($resultTimeRecord))
 	{	
 		
-		$arrData[$iTimeRecord][1]=$row['time'];
+		$arrData[$iTimeRecord][1]=substr($row['time'],4);
 		$arrData[$iTimeRecord][2]=0;
 		$iTimeRecord=$iTimeRecord+1;
 		
@@ -71,7 +71,7 @@ include("./Includes/FusionCharts.php");
 	{	
 		for($i=0;$i<$iTimeRecord;$i++)
 		{
-			if($arrData[$i][1]==$row['time'])
+			if($arrData[$i][1]==substr($row['time'],4))
 			{
 				$arrData[$i][2]=$row['number'];
 				break;

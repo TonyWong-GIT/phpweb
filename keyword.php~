@@ -17,6 +17,14 @@ function showChart(data_url, comefrom, task, type, keyword, startdate, enddate)
 	//window.open("chart/chart.php?data_url="+data_url+" &comefrom="+comefrom);
 	window.open("chart/chart.php?data_url="+data_url+" &comefrom="+comefrom+" &task="+task+" &type="+type+" &keyword="+keyword+" &startdate="+startdate+" &enddate="+enddate+"\"",'url_window','height=500,width=800,top=150,left=300,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
 }
+function whitelistadd(url, comefrom, task, type, keyword, time, number, title, source)
+{
+	if(confirm("你确信要加入白名单？"))
+    	{//如果是true ，那么就把页面转向whitelist_add.php
+        	window.location.href="whitelist_add.php?task="+task+"&type="+type+"&keyword="+keyword+"&url="+url+"&comefrom="+comefrom+"&time="+time+"&number="+number+"&title="+title+"&source="+source;
+   	}
+
+}
 </script>
 <!--<script type="text/javascript"  language="JavaScript" src="js/pagination.js"></script>-->
 
@@ -51,8 +59,7 @@ function showChart(data_url, comefrom, task, type, keyword, startdate, enddate)
 	  $form_number = 0;
   }
   $form_page_number = $form_number+$form_page;
-	
-  echo '---'.$form_page_number.'---';
+  $comefrom = '';
 
   if($_GET['form_task']!='' and $_GET['form_type']!=''){
 	  $task = $_GET['form_task'];
@@ -67,9 +74,7 @@ function showChart(data_url, comefrom, task, type, keyword, startdate, enddate)
   $form_keyword = $_GET['keyword'];
   $form_start_date = $_GET['start_date'];
   $form_end_date = $_GET['end_date'];
-  $form_source = $_GET['source'];
-
-
+  
   $resKeywordType = mysql_query('SELECT `keyword` FROM `keyword` WHERE `task`="'.$task.'" and `type`="'.$type.'"');
   
 
@@ -104,11 +109,14 @@ function showChart(data_url, comefrom, task, type, keyword, startdate, enddate)
   echo '起始时间:'.'<input name="start_date" type="text" class="easyui-datebox" value="'.$form_start_date.'">';
   echo '终止时间:'.'<input name="end_date" type="text" class="easyui-datebox" value="'.$form_end_date.'" >';
   echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-  echo '来源:&nbsp;&nbsp;&nbsp;'.'<input type="checkbox" id="form_source" name="source[]" value="baidu">百度&nbsp;&nbsp;';
-  echo '<input type="checkbox" id="form_source" name="source[]" value="sousou">搜搜&nbsp;&nbsp;';
-  echo '<input type="checkbox" id="form_source" name="source[]" value="google_hk">谷歌&nbsp;&nbsp;&nbsp;';
+  echo '来源:&nbsp;&nbsp;&nbsp;'.'<input type="checkbox" id="form_source" name="form_source[]" value="百度">百度&nbsp;&nbsp;';
+  echo '<input type="checkbox" id="form_source" name="form_source[]" value="搜搜">搜搜&nbsp;&nbsp;';
+  echo '<input type="checkbox" id="form_source" name="form_source[]" value="谷歌">谷歌&nbsp;&nbsp;&nbsp;';
   echo '<input type="submit" value="筛选" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-  echo '<a href=\'special.php?task='.$task.'&type='.$type.'&special_flag=1\'  value="specialurl" class="easyui-linkbutton">特殊URL</a>';
+  echo '<a href=\'special.php?task='.$task.'&type='.$type.'&special_flag=1\'  value="specialurl" class="easyui-linkbutton">特殊URL</a>&nbsp;';
+  echo '<a href=\'special.php?task='.$task.'&type='.$type.'&special_flag=1\'  value="specialurl" class="easyui-linkbutton">消失URL</a>&nbsp;';
+  echo '<a href=\'special.php?task='.$task.'&type='.$type.'&special_flag=1\'  value="specialurl" class="easyui-linkbutton">出现URL</a>&nbsp;';
+  echo '<a href=\'whitelist.php?task='.$task.'&type='.$type\'  value="specialurl" class="easyui-linkbutton">白名单</a>';
   echo '</form>';
   echo '</div>';
   echo '<div class="table-content">';
@@ -117,10 +125,11 @@ function showChart(data_url, comefrom, task, type, keyword, startdate, enddate)
   echo '<tr>
 		<th width="30px" class="table-center-th">编号</th>
 	        <th width="300px" class="table-center-th">URL</th>
-		<th width="300px" class="table-center-th">标题</th>
-	        <th width="190px" class="table-center-th">时间</th>
-		<th width="140px" class="table-center-th">来源</th>
-		<th width="130px" class="table-center-th">权重</th>
+		<th width="370px" class="table-center-th">标题</th>
+	        <th width="100px" class="table-center-th">时间</th>
+		<th width="100px" class="table-center-th">来源</th>
+		<th width="100px" class="table-center-th">权重</th>
+		<th width="90px" class="table-center-th">加入白名单</th>
 	</tr>';
 
   $i = 0;
@@ -191,22 +200,32 @@ function showChart(data_url, comefrom, task, type, keyword, startdate, enddate)
 	$sql_query = $sql_query.' and `time` <="'.$date.'"';
 	$sql_count = $sql_count.' and `time` <="'.$date.'"';
   }
-  if($form_source != ''){
-	if(is_array($form_source)){
-		foreach( $form_source as $var){
-			$comefrom = $comefrom.'"'.$var.'",';
-		}
-		$comefrom = $comefrom.'"")';   //此处""解决,的出现问题
-		$sql_query = $sql_query.' and `comefrom` in ('.$comefrom;
-		$sql_count = $sql_count.' and `comefrom` in ('.$comefrom;
-  	}else{
-		$sql_query = $sql_query.' and `comefrom` = "'.$form_source.'"';
-		$sql_count = $sql_count.' and `comefrom` = "'.$form_source.'"';
+
+  $comefrom = '';
+  if($_GET['form_source'] != ''){
+	$form_source = $_GET['form_source'];
+	foreach( $form_source as $var){
+		$comefrom = $comefrom.'"'.$var.'",';
+		//echo $comefrom.'========';
+		//$source_array = ;
 	}
+	$comefrom = $comefrom.'""';   //此处""解决,的出现问题
+	//echo '$comefrom:'.$comefrom;
+	$sql_query = $sql_query.' and `comefrom` in ('.$comefrom.')';
+	$sql_count = $sql_count.' and `comefrom` in ('.$comefrom.')';
+  }else if($_GET['source'] != ''){
+	$form_source = $_GET['source'];
+	$sql_query = $sql_query.' and `comefrom` in ('.$form_source.')';
+	$sql_count = $sql_count.' and `comefrom` in ('.$form_source.')';
+  }else{
+	$form_source = '';
+	$comefrom = '';
   }
+  //echo '--'.$form_source.'--';
+
+  //echo '$sql_query:'.$sql_query;
   $sql_query = $sql_query.'  limit '.$form_number.','.$form_page;
   //$resKeyword = mysql_query('SELECT * FROM webpage WHERE task='.$task.' and type='.$type.' limit 0,20');
-  echo '---'.$sql_query.'---';	
   //echo $sql_query;
 
 
@@ -226,13 +245,20 @@ function showChart(data_url, comefrom, task, type, keyword, startdate, enddate)
 	  while($tKeyword = mysql_fetch_array($resKeyword)){
 		$form_number += 1;
 		//echo date('Ymd')-7;
-		echo '<tr>
+		if($tKeyword['flag_whitelist'] == 1){
+			echo '<tr class="tr-background">';
+		}
+		else{
+			echo '<tr>';
+		}
+		echo '
 					<td class="table-grid">'.$form_number.'</td>
 					<td class="table-grid"><a href="#" class="easyui-linkbutton" onclick=\'showChart("'.$tKeyword['url'].'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$tKeyword['keyword'].'","'.(date('Ymd')-7).'","'.date('Ymd').'")\'>'.substr($tKeyword['url'],0,40).'</a></td>
 					<td class="table-grid">'.$tKeyword['title'].'</td>
 					<td class="table-grid">'.$tKeyword['time'].'</td>
 					<td class="table-grid">'.$tKeyword['comefrom'].'</td>
 					<td class="table-grid">'.$tKeyword['number'].'</td>
+					<td class="table-grid"><a href="#" class="easyui-linkbutton" onclick=\'whitelistadd("'.$tKeyword['url'].'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$tKeyword['keyword'].'","'.$tKeyword['time'].'","'.$tKeyword['number'].'","'.$tKeyword['title'].'","keyword.php")\'>加入</a></td>
 		     </tr>';
 		
 	  }
@@ -255,10 +281,11 @@ function showChart(data_url, comefrom, task, type, keyword, startdate, enddate)
 		<option>50</option>
 	      </select></td>';
 	echo '<td><div class="pagination-btn-separator"></div></td>';
+	//print $form_source;
 	if(ceil($form_number/$form_page) <= 1){
 		echo '<td><a href="#" class="l-btn l-btn-plain l-btn-disabled">';
 	}else{
-		echo '<td><a href=\'keyword.php?task='.$task.'&type='.$type.'&form_number=0 &keyword='.$form_keyword.'&source='.$form_source.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
+		echo '<td><a href=\'keyword.php?task='.$task.'&type='.$type.'&form_number=0 &keyword='.$form_keyword.'&source='.$comefrom.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
 	}
 	echo '  <span class="l-btn-left"><span class="l-btn-text">
 		<span class="l-btn-empty pagination-first">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span></a></td>';//首页跳转
@@ -267,7 +294,7 @@ function showChart(data_url, comefrom, task, type, keyword, startdate, enddate)
 	if(ceil($form_number/$form_page) <= 1){
 		echo '<td><a href="#" class="l-btn l-btn-plain l-btn-disabled">';
 	}else{
-		echo '<td><a href=\'keyword.php?task='.$task.'&type='.$type.'&form_number='.((ceil(($form_number-$form_page)/$form_page)-1)*$form_page).'&keyword='.$form_keyword.'&source='.$form_source.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
+		echo '<td><a href=\'keyword.php?task='.$task.'&type='.$type.'&form_number='.((ceil(($form_number-$form_page)/$form_page)-1)*$form_page).'&keyword='.$form_keyword.'&source='.$comefrom.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
 	}
 	echo '  <span class="l-btn-left"><span class="l-btn-text">
 		<span class="l-btn-empty pagination-prev">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span></a></td>';//前页跳转
@@ -283,7 +310,7 @@ function showChart(data_url, comefrom, task, type, keyword, startdate, enddate)
 	if(ceil($form_number/$form_page) >= ceil($data_count/$form_page)){
 		echo '<td><a href="#" class="l-btn l-btn-plain l-btn-disabled">';
 	}else{
-		echo '<td><a href=\'keyword.php?task='.$task.'&type='.$type.'&form_number='.$form_number.'&keyword='.$form_keyword.'&source='.$form_source.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
+		echo '<td><a href=\'keyword.php?task='.$task.'&type='.$type.'&form_number='.$form_number.'&keyword='.$form_keyword.'&source='.$comefrom.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
 	}
 	echo '  <span class="l-btn-left"><span class="l-btn-text">
 		<span class="l-btn-empty pagination-next">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span></a></td>';//下页跳转
@@ -291,7 +318,7 @@ function showChart(data_url, comefrom, task, type, keyword, startdate, enddate)
 	if(ceil($form_number/$form_page) >= ceil($data_count/$form_page)){
 		echo '<td><a href="#" class="l-btn l-btn-plain l-btn-disabled">';
 	}else{
-		echo '<td><a href=\'keyword.php?task='.$task.'&type='.$type.'&form_number='.((ceil($data_count/$form_page)-1)*$form_page).'&keyword='.$form_keyword.'&source='.$form_source.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
+		echo '<td><a href=\'keyword.php?task='.$task.'&type='.$type.'&form_number='.((ceil($data_count/$form_page)-1)*$form_page).'&keyword='.$form_keyword.'&source='.$comefrom.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
 	}
 	echo '  <span class="l-btn-left"><span class="l-btn-text">
 		<span class="l-btn-empty pagination-last">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span></a></td>';//后页跳转
@@ -299,7 +326,7 @@ function showChart(data_url, comefrom, task, type, keyword, startdate, enddate)
 
 	echo '<td><div class="pagination-btn-separator"></div></td>';
 
-	echo '<td><span style="padding-left:6px">Total&nbsp;'.$data_count.'&nbsp;Counts&nbsp;&nbsp;</span>';;
+	echo '<td><span style="padding-left:6px">Total&nbsp;'.$data_count.'&nbsp;Counts&nbsp;&nbsp;</span>';
 
 	echo '<td><div class="pagination-btn-separator"></div></td>';
 

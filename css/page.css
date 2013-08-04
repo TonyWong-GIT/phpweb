@@ -19,6 +19,9 @@ a:active {
 	height:65px;
 	background:#B3DFDA;
 }
+.tr-background {
+	background:#B3DFDA;
+}
 .menu-north {
 	height:25px;
 	padding: 5px 5px 5px 5px;

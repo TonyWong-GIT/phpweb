@@ -50,12 +50,12 @@ include("./Includes/FusionCharts.php");
 
 	$resultTimeRecord=mysql_query('select `time` from `timerecord` where `keyword`="'.$keyword.'" and `comefrom`="'.$comefrom.'"and `task`="'.$task.'"and `type`="'.$type.'"and `time` >="'.$startdate.'"and `time` <= "'.$enddate.' order by time asc');
 
-	echo 'select `time` from `timerecord` where `keyword`="'.$keyword.'" and `comefrom`="'.$comefrom.'"and `task`="'.$task.'"and `type`="'.$type.'"and `time` >="'.$startdate.'"and `time` <= "'.$enddate.' order by time asc';
+	//echo 'select `time` from `timerecord` where `keyword`="'.$keyword.'" and `comefrom`="'.$comefrom.'"and `task`="'.$task.'"and `type`="'.$type.'"and `time` >="'.$startdate.'"and `time` <= "'.$enddate.' order by time asc';
 	$iTimeRecord=0;
 	while($row=mysql_fetch_array($resultTimeRecord))
 	{	
 		
-		$arrData[$iTimeRecord][1]=$row['time'];
+		$arrData[$iTimeRecord][1]=substr($row['time'],4);
 		$arrData[$iTimeRecord][2]=0;
 		$iTimeRecord=$iTimeRecord+1;
 		

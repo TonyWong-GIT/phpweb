@@ -49,8 +49,8 @@ include("./Includes/FusionCharts.php");
 	mysql_select_db("inet",$con);
 	mysql_query("set names utf8");
 	$result_url=mysql_query('SELECT `number`,`time` FROM `webpage` WHERE `url`="'.$data_url.'" AND `comefrom`="'.$comefrom.'" AND `task`="'.$task.'"AND `type`="'.$type.'"AND `keyword`="'.$keyword.'"AND `time`>="'.$startdate.'"AND `time` <= "'.$enddate.' ORDER BY `time` asc');
-	echo 'SELECT `number`,`time` FROM `webpage` WHERE `url`="'.$data_url.'" AND `comefrom`="'.$comefrom.'" AND `task`="'.$task.'"AND `type`="'.$type.'"AND `keyword`="'.$keyword.'"AND `time`>="'.$startdate.'"AND `time` <= "'.$enddate.' ORDER BY `time` asc';
-/*	echo 'SELECT `number`,`time` FROM `webpage` WHERE `url`="'.$data_url.'" AND `comefrom`="'.$comefrom.'" ORDER BY `time` asc((((';
+/*	echo 'SELECT `number`,`time` FROM `webpage` WHERE `url`="'.$data_url.'" AND `comefrom`="'.$comefrom.'" AND `task`="'.$task.'"AND `type`="'.$type.'"AND `keyword`="'.$keyword.'"AND `time`>="'.$startdate.'"AND `time` <= "'.$enddate.' ORDER BY `time` asc';
+	echo 'SELECT `number`,`time` FROM `webpage` WHERE `url`="'.$data_url.'" AND `comefrom`="'.$comefrom.'" ORDER BY `time` asc((((';
 	echo $result_url.'))))';
 	
 	echo '======';

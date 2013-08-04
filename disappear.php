@@ -16,10 +16,6 @@ function showChart_special(data_url, comefrom, task, type, keyword, startdate, e
 	//window.open("chart/chart.php?data_url="+data_url+" &comefrom="+comefrom);
 	window.open("chart/specialchart.php?data_url="+data_url+" &comefrom="+comefrom+" &task="+task+" &type="+type+" &keyword="+keyword+" &startdate="+startdate+" &enddate="+enddate+"\"",'url_window','height=500,width=800,top=150,left=300,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
 }
-function whitelistadd(url, comefrom, task, type, keyword, time, number, title, source)
-{
-	window.location.href="whitelist_add.php?task="+task+"&type="+type+"&keyword="+keyword+"&url="+url+"&comefrom="+comefrom+"&time="+time+"&number="+number+"&title="+title+"$source="+source;
-}
 </script>
 <?php
   
@@ -293,7 +289,7 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
 			<td class="table-grid">'.$tKeyword['time'].'</td>
 			<td class="table-grid">'.$tKeyword['comefrom'].'</td>
 			<td class="table-grid">'.$tKeyword['number'].'</td>
-			<td class="table-grid"><a href="#" class="easyui-linkbutton" onclick=\'whitelistadd("'.$tKeyword['url'].'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$tKeyword['keyword'].'","'.$tKeyword['time'].'","'.$tKeyword['number'].'","'.$tKeyword['title'].'","special.php")\'>加入</a></td>
+			<td class="table-grid"><a href="#" class="easyui-linkbutton">加入</a></td>
 		</tr>';
   }
   	

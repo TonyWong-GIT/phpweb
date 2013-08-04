@@ -94,7 +94,7 @@ a:active {
 .setup-window-keyword-content-setup {
 	position: absolute;
 	left: 500px;
-	top:32px;
+	top:45px;
 	width: 100px;
 	height: 232px;
 }
