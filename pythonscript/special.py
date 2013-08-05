@@ -16,9 +16,15 @@ source_list = ('谷歌','百度','搜搜')
 cur_del_special = conn.cursor()
 cur_del_special.execute('DELETE FROM `specialurl` WHERE 1')
 
+cur_select_metaetc = conn.cursor()
+cur_select_metaetc.execute('select * from `metaetc` where 1')
+row_select_metaetc = cur_select_metaetc.fetchall()
+day_select_metaetc = row_select_metaetc[0][0]
+
 today = date.today()
 oneday = timedelta(days=1)
-startday = (today-oneday*7).strftime('%Y%m%d')
+sixthday = (today-oneday*(day_select_metaetc-1)).strftime('%Y%m%d')
+startday = (today-oneday*day_select_metaetc).strftime('%Y%m%d')
 today = today.strftime('%Y%m%d')
  
 cur_select_timerecord_type = conn.cursor()
@@ -51,17 +57,17 @@ for row_select_timerecord_task in rows_select_timerecord_task:
                 rows_select_timerecord_count = cur_select_timerecord_count.fetchall()
 
                 download_number = rows_select_timerecord_count[0][0]
-                cur_select_webpage_url.execute('select distinct `url` from `webpage` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `time` >= "%s" and `time`<= "%s" and `flag_whitelist` != 1'%(row_select_timerecord_task[0],row_select_timerecord_type[0],row_select_timerecord_keyword[0],source,startday,today))
+                cur_select_webpage_url.execute('select distinct `url` from `webpage` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `time` >= "%s" and `time`<= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0],row_select_timerecord_keyword[0],source,startday,today))
 #                print 'select distinct `url` from `webpage` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `time` >= "%s" and `time`<= "%s" and `flag_whitelist` != 1'%(row_select_timerecord_task[0],row_select_timerecord_type[0],row_select_timerecord_keyword[0],source,startday,today)
                 rows_select_webpage_url = cur_select_webpage_url.fetchall()
 
                 for row_select_webpage_url in rows_select_webpage_url:
-                    cur_select_webpage_count.execute('select count(*) from `webpage` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `url`="%s" and `time` >= "%s" and `time`<= "%s" and `flag_whitelist` != 1'%(row_select_timerecord_task[0],row_select_timerecord_type[0], row_select_timerecord_keyword[0],source,row_select_webpage_url[0],startday,today))
+                    cur_select_webpage_count.execute('select count(*) from `webpage` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `url`="%s" and `time` >= "%s" and `time`<= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0], row_select_timerecord_keyword[0],source,row_select_webpage_url[0],startday,today))
 #                    print 'select count(*) from `webpage` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `url`="%s" and `time` >= "%s" and `time`<= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0], row_select_timerecord_keyword[0],source,row_select_webpage_url[0],startday,today)
                     rows_select_webpage_count = cur_select_webpage_count.fetchall()
                     url_count = rows_select_webpage_count[0][0]
                     if download_number != url_count:
-                        cur_select_webpage_all.execute('select * from `webpage` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `url`="%s" and `time` >= "%s" and `time`<= "%s" and `flag_whitelist` != 1'%(row_select_timerecord_task[0],row_select_timerecord_type[0], row_select_timerecord_keyword[0],source,row_select_webpage_url[0],startday,today))
+                        cur_select_webpage_all.execute('select * from `webpage` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `url`="%s" and `time` >= "%s" and `time`<= "%s" '%(row_select_timerecord_task[0],row_select_timerecord_type[0], row_select_timerecord_keyword[0],source,row_select_webpage_url[0],startday,today))
 #                        print 'select * from `webpage` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `url`="%s" and `time` >= "%s" and `time`<= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0], row_select_timerecord_keyword[0],source,row_select_webpage_url[0],startday,today)
                         rows_select_webpage_all = cur_select_webpage_all.fetchall()
 		        #此处需注意：若同一关键字查询时，同一url出现了两次，则只统计第一次出现的number
@@ -73,6 +79,7 @@ cur_select_timerecord_type.close()
 cur_select_timerecord_keyword.close()
 cur_select_timerecord_count.close()
 cur_select_webpage_url.close()
+cur_select_metaetc.close()
 cur_select_webpage_count.close()
 cur_select_webpage_all.close()
 cur_insert_special_all.close()

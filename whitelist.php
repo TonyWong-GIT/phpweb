@@ -11,10 +11,10 @@
 <script type="text/javascript"  language="JavaScript" src="js/jquery.easyui.min.js"></script>
 <script type="text/javascript"  language="JavaScript" src="js/page.js"></script>
 <script>
-function showChart_special(data_url, comefrom, task, type, keyword, startdate, enddate)
+function showChart(data_url, comefrom, task, type, keyword, startdate, enddate)
 {
 	//window.open("chart/chart.php?data_url="+data_url+" &comefrom="+comefrom);
-	window.open("chart/specialchart.php?data_url="+data_url+" &comefrom="+comefrom+" &task="+task+" &type="+type+" &keyword="+keyword+" &startdate="+startdate+" &enddate="+enddate+"\"",'url_window','height=500,width=800,top=150,left=300,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
+	window.open("chart/chart.php?data_url="+data_url+" &comefrom="+comefrom+" &task="+task+" &type="+type+" &keyword="+keyword+" &startdate="+startdate+" &enddate="+enddate+"\"",'url_window','height=500,width=800,top=150,left=300,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
 }
 function whitelistdel(url, comefrom, task, type, keyword, time, number, title, source)
 {
@@ -26,7 +26,13 @@ function whitelistdel(url, comefrom, task, type, keyword, time, number, title, s
 }
 </script>
 <?php
-  
+  $con = mysql_connect("localhost","root","1234");
+  if (!$con)
+  {
+	 die('Could not connect: ' . mysql_error());
+  }
+  mysql_select_db("inet", $con);
+  mysql_query("set names utf8");     //php解决中文显示??????
 
   if($_GET['form_page']!=''){
 	  $form_page = $_GET['form_page'];
@@ -50,33 +56,41 @@ function whitelistdel(url, comefrom, task, type, keyword, time, number, title, s
 	  //$type = substr(substr($type,1),0,strlen($type)-2);//去掉传递过来的字符串的左右"",有时候会出现此问题，不清楚是什么问题
   }
 
+  $res_day = 'select * from `metaetc` where 1';
+  $rows_day = mysql_query($res_day);
+  while($row_day = mysql_fetch_array($rows_day)){
+	$form_day = $row_day['day'];
+  }
+  //echo '-----------'.$form_day;
+  $form_day_start = $form_day-2*$form_day;
 
+  $form_keyword = $_GET['keyword'];
   $form_start_date = $_GET['start_date'];
   $form_end_date = $_GET['end_date'];
 
+ 
 
-  $con = mysql_connect("localhost","root","1234");
-  if (!$con)
-  {
-	 die('Could not connect: ' . mysql_error());
-  }
-  mysql_select_db("inet", $con);
-  mysql_query("set names utf8");     //php解决中文显示??????
 
-  
+  $resKeywordType = mysql_query('SELECT distinct `keyword` FROM `whitelist` WHERE `task`="'.$task.'" and `type`="'.$type.'"');
   //echo mysql_fetch_array($resKeywordType) or die(mysql_error()).'_________';//1
   echo '<div region="north" border="true" class="menu-north">';
   echo '<form action="whitelist.php" method="get" name="form">';
-
+  echo '关键字:'.'<select name="keyword" >';
+  while($tKeywordType = mysql_fetch_array($resKeywordType))
+  {	
+	echo '<option value ="'.$tKeywordType[0].'"';
+	echo '>'.$tKeywordType[0].'</option>';
+  }  
+  echo '<option value ="" selected="selected"></option>';
   echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
   echo '<input type="hidden" name="form_task" value='.$task.'>';
   echo '<input type="hidden" name="form_type" value='.$type.'>';
   echo '起始时间:'.'<input name="start_date" type="text" class="easyui-datebox"  value="'.$form_start_date.'">';
   echo '终止时间:'.'<input name="end_date" type="text" class="easyui-datebox"  value="'.$form_end_date.'">';
   echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-  echo '来源:&nbsp;&nbsp;&nbsp;'.'<input type="checkbox" id="form_source" name="source[]" value="百度">百度&nbsp;&nbsp;';
-  echo '<input type="checkbox" id="form_source" name="source[]" value="搜搜">搜搜&nbsp;&nbsp;';
-  echo '<input type="checkbox" id="form_source" name="source[]" value="谷歌">谷歌&nbsp;&nbsp;&nbsp;';
+  echo '来源:&nbsp;&nbsp;&nbsp;'.'<input type="checkbox" id="form_source" name="form_source[]" value="百度">百度&nbsp;&nbsp;';
+  echo '<input type="checkbox" id="form_source" name="form_source[]" value="搜搜">搜搜&nbsp;&nbsp;';
+  echo '<input type="checkbox" id="form_source" name="form_source[]" value="谷歌">谷歌&nbsp;&nbsp;&nbsp;';
   echo '<input type="submit" value="筛选" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
   //echo '<a href=\'special.php?task='.$task.'&type='.$type.' &keyword='.$form_keyword.'&source='.$form_source.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\'  value="specialurl" class="easyui-linkbutton">特殊URL</a>';
   echo '</form>';
@@ -86,9 +100,14 @@ function whitelistdel(url, comefrom, task, type, keyword, time, number, title, s
   
   $sql_special_query = '';
   $sql_special_count = '';
- 
-  $sql_special_query = 'SELECT * FROM `whitelist` WHERE  `task`="'.$task.'" and `type`="'.$type.'"';   
-  $sql_special_count = 'SELECT count(*) FROM `whitelist` WHERE `task`="'.$task.'" and `type`="'.$type.'"';
+  if($form_keyword != ''){
+	$sql_special_query = 'SELECT * FROM `whitelist` WHERE `task`="'.$task.'" and `type`="'.$type.'" and `keyword`="'.$form_keyword.'"';
+	$sql_special_count = 'SELECT COUNT(*) FROM `whitelist` WHERE `task`="'.$task.'" and `type`="'.$type.'" and `keyword`="'.$form_keyword.'"';
+  }else{
+	$sql_special_query = 'SELECT * FROM `whitelist` WHERE `task`="'.$task.'" and `type`="'.$type.'"';
+	$sql_special_count = 'SELECT COUNT(*) FROM `whitelist` WHERE `task`="'.$task.'" and `type`="'.$type.'"';
+  }
+
 
   //echo $sql_special_query;
   //日期格式转化
@@ -119,11 +138,6 @@ function whitelistdel(url, comefrom, task, type, keyword, time, number, title, s
 		}
 	}
 	$date = $year.''.$month.''.$day;
-	if($date < (date('Ymd')-7)){
-		$date = (date('Ymd')-7);
-	}else{
-		$date = $date;
-	}
 
 	$sql_special_query = $sql_special_query.'and `time` >="'.$date.'"';
 	$sql_special_count = $sql_special_count.'and `time` >="'.$date.'"';
@@ -177,16 +191,46 @@ function whitelistdel(url, comefrom, task, type, keyword, time, number, title, s
 	}
 	$comefrom = $comefrom.'""';   //此处""解决,的出现问题
 	//echo '$comefrom:'.$comefrom;
-	$sql_query = $sql_query.' and `comefrom` in ('.$comefrom.')';
-	$sql_count = $sql_count.' and `comefrom` in ('.$comefrom.')';
+	$sql_special_query = $sql_special_query.' and `comefrom` in ('.$comefrom.')';
+	$sql_special_count = $sql_special_count.' and `comefrom` in ('.$comefrom.')';
   }else if($_GET['source'] != ''){
 	$form_source = $_GET['source'];
-	$sql_query = $sql_query.' and `comefrom` in ('.$form_source.')';
-	$sql_count = $sql_count.' and `comefrom` in ('.$form_source.')';
+	$sql_special_query = $sql_special_query.' and `comefrom` in ('.$form_source.')';
+	$sql_special_count = $sql_special_count.' and `comefrom` in ('.$form_source.')';
   }else{
 	$form_source = '';
 	$comefrom = '';
   }
+  
+  $chart_date_start = date("Ymd",strtotime("$form_day_start day"));
+  $chart_year = substr($chart_date_start,0,4); 
+  if(substr($chart_date_start,4,1) == '0'){
+	$chart_month = substr($chart_date_start,5,1);
+  }else{
+	$chart_month = substr($chart_date_start,4,2);
+  }
+  if(substr($chart_date_start,6,1) == '0'){
+	$chart_day = substr($chart_date_start,7,1);
+  }else{
+	$chart_day = substr($chart_date_start,6,2);
+  }
+
+  $chart_date_start = $chart_month.'/'.$chart_day.'/'.$chart_year;
+  //echo $chart_date_start;  //  7/9/2013
+  $chart_date_end = date("Ymd");
+  $chart_year = substr($chart_date_end,0,4); 
+  if(substr($chart_date_end,4,1) == '0'){
+	$chart_month = substr($chart_date_end,5,1);
+  }else{
+	$chart_month = substr($chart_date_end,4,2);
+  }
+  if(substr($chart_date_end,6,1) == '0'){
+	$chart_day = substr($chart_date_end,7,1);
+  }else{
+	$chart_day = substr($chart_date_end,6,2);
+  }
+
+  $chart_date_end = $chart_month.'/'.$chart_day.'/'.$chart_year;
 
   
   $sql_special_query = $sql_special_query.'  limit '.$form_number.','.$form_page;
@@ -217,7 +261,7 @@ function whitelistdel(url, comefrom, task, type, keyword, time, number, title, s
 	//echo date('Ymd')-7;
 	echo '<tr class="tr-background">
 			<td class="table-grid">'.$form_number.'</td>
-			<td class="table-grid"><a href="#" class="easyui-linkbutton" onclick=\'showChart_special("'.$tKeyword['url'].'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$tKeyword['keyword'].'","'.(date('Ymd')-7).'","'.date('Ymd').'")\'>'.substr($tKeyword['url'],0,40).'</a></td>
+			<td class="table-grid"><a href="#" class="easyui-linkbutton" onclick=\'showChart("'.$tKeyword['url'].'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$tKeyword['keyword'].'","'.$chart_date_start.'","'.$chart_date_end.'")\'>'.substr($tKeyword['url'],0,40).'</a></td>
 			<td class="table-grid">'.$tKeyword['title'].'</td>
 			<td class="table-grid">'.$tKeyword['time'].'</td>
 			<td class="table-grid">'.$tKeyword['comefrom'].'</td>
@@ -242,11 +286,10 @@ function whitelistdel(url, comefrom, task, type, keyword, time, number, title, s
         </select></td>';
   echo '<td><div class="pagination-btn-separator"></div></td>';
   if(ceil($form_number/$form_page) <= 1){
-	echo '<td><a href="#" class="l-btn l-btn-plain l-btn-disabled">';
-  }else{
-	echo '<td><a href=\'whitelist.php?form_number=0 &task='.$task.'&type='.$type.'&source='.$comefrom.'&start_date='.$form_start_date. '&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
-  }
-
+		echo '<td><a href="#" class="l-btn l-btn-plain l-btn-disabled">';
+	}else{
+		echo '<td><a href=\'whitelist.php?task='.$task.'&type='.$type.'&form_number=0 &keyword='.$form_keyword.'&source='.$comefrom.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
+	}
 	echo '  <span class="l-btn-left"><span class="l-btn-text">
 		<span class="l-btn-empty pagination-first">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span></a></td>';//首页跳转
 
@@ -254,7 +297,7 @@ function whitelistdel(url, comefrom, task, type, keyword, time, number, title, s
 	if(ceil($form_number/$form_page) <= 1){
 		echo '<td><a href="#" class="l-btn l-btn-plain l-btn-disabled">';
 	}else{
-		echo '<td><a href=\'whitelist.php?task='.$task.'&type='.$type.'&form_number='.((ceil(($form_number-$form_page)/$form_page)-1)*$form_page).'&source='.$comefrom.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
+		echo '<td><a href=\'whitelist.php?task='.$task.'&type='.$type.'&form_number='.((ceil(($form_number-$form_page)/$form_page)-1)*$form_page).'&keyword='.$form_keyword.'&source='.$comefrom.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
 	}
 	echo '  <span class="l-btn-left"><span class="l-btn-text">
 		<span class="l-btn-empty pagination-prev">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span></a></td>';//前页跳转
@@ -270,7 +313,7 @@ function whitelistdel(url, comefrom, task, type, keyword, time, number, title, s
 	if(ceil($form_number/$form_page) >= ceil($data_count/$form_page)){
 		echo '<td><a href="#" class="l-btn l-btn-plain l-btn-disabled">';
 	}else{
-		echo '<td><a href=\'whitelist.php?task='.$task.'&type='.$type.'&form_number='.$form_number.'&source='.$comefrom.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
+		echo '<td><a href=\'whitelist.php?task='.$task.'&type='.$type.'&form_number='.$form_number.'&keyword='.$form_keyword.'&source='.$comefrom.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
 	}
 	echo '  <span class="l-btn-left"><span class="l-btn-text">
 		<span class="l-btn-empty pagination-next">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span></a></td>';//下页跳转
@@ -278,7 +321,7 @@ function whitelistdel(url, comefrom, task, type, keyword, time, number, title, s
 	if(ceil($form_number/$form_page) >= ceil($data_count/$form_page)){
 		echo '<td><a href="#" class="l-btn l-btn-plain l-btn-disabled">';
 	}else{
-		echo '<td><a href=\'whitelist.php?form_number='.((ceil($data_count/$form_page)-1)*$form_page).'&task='.$task.'&type='.$type.'&source='.$comefrom.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
+		echo '<td><a href=\'whitelist.php?task='.$task.'&type='.$type.'&form_number='.((ceil($data_count/$form_page)-1)*$form_page).'&keyword='.$form_keyword.'&source='.$comefrom.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
 	}
 	echo '  <span class="l-btn-left"><span class="l-btn-text">
 		<span class="l-btn-empty pagination-last">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span></a></td>';//后页跳转
@@ -286,11 +329,11 @@ function whitelistdel(url, comefrom, task, type, keyword, time, number, title, s
 
 	echo '<td><div class="pagination-btn-separator"></div></td>';
 
-	echo '<td><span style="padding-left:6px">Total&nbsp;'.$data_count.'&nbsp;Counts&nbsp;&nbsp;</span>';;
+	echo '<td><span style="padding-left:6px">Total&nbsp;'.$data_count.'&nbsp;Counts&nbsp;&nbsp;</span>';
 
 	echo '<td><div class="pagination-btn-separator"></div></td>';
 
-	echo '<td><a href=\'whitelist.php?form_number=0&task='.$task.'&type='.$type.'\' class="l-btn l-btn-plain" style="text-decoration:none">
+	echo '<td><a href=\'whitelist.php?task='.$task.'&type='.$type.'&form_number=0 \' class="l-btn l-btn-plain" style="text-decoration:none">
 		<sapn class="l-btn-left"><sapn class="l-btn-text">
 		<span class="l-btn-empty pagination-load">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span></a></td>';//刷新
 	//echo '</form>';

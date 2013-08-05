@@ -1,1 +1,3 @@
 keyword数据库表中的keyword字段不可有空格
+
+webpage表中的列的顺序不可改变，若改变则需相应改变pythonscript中脚本文件的插入语句
