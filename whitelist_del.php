@@ -28,10 +28,10 @@ mysql_query('UPDATE `disappear` SET `flag_whitelist`=0 where `url`="'.$url.'" an
 mysql_query('UPDATE `webpage` SET `flag_whitelist`=0 where `url`="'.$url.'" and `keyword`="'.$keyword.'" and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
 mysql_query('DELETE FROM `whitelist` where `title`="'.$title.'" and `url`="'.$url.'" and `keyword`="'.$keyword.'" and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
 //echo 'DELETE FROM `whitelist` where `title`="'.$title.'" and `url`="'.$url.'" and `keyword`="'.$keyword.'" and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"';
-echo '删除成功！！';
-echo '点击<a href="#" onclick="window.location.href=\''.$_SERVER["HTTP_REFERER"].'\';return false;">此处</a>返回';
+
+//echo '点击<a href="#" onclick="window.location.href=\''.$_SERVER["HTTP_REFERER"].'\';return false;">此处</a>返回';
 //echo '<meta http-equiv="refresh" content="0.8;url="'.$source.'">';
-//echo '<script language="javascript">history.go(-1);</script>';
+echo '<script language="javascript">location.href=\''.$_SERVER["HTTP_REFERER"].'\';</script>';
 
 
 mysql_close($con);

@@ -29,11 +29,11 @@ mysql_query('UPDATE `webpage` SET `flag_whitelist`=1 where `url`="'.$url.'" and 
 //echo 'UPDATE `webpage` SET `flag_whitelist`=1 where `url`="'.$url.'" and `keyword`="'.$keyword.'" and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"';
 mysql_query('INSERT INTO `whitelist`(`title`, `url`, `keyword`, `time`, `comefrom`, `number`, `type`, `task`) VALUES ("'.$title.'","'.$url.'","'.$keyword.'","'.$time.'","'.$comefrom.'","'.$number.'","'.$type.'","'.$task.'")');
 //echo 'INSERT INTO `whitelist`(`title`, `url`, `keyword`, `time`, `comefrom`, `number`, `type`, `task`) VALUES ("'.$title.'","'.$url.'","'.$keyword.'","'.$time.'","'.$comefrom.'","'.$number.'","'.$type.'","'.$task.'")';
-echo '添加成功！！';
+//echo '添加成功！！';
 //echo '<a href="#" onclick="history.go(-1);return false;">返回</a>';
-echo '点击<a href="#" onclick="window.location.href=\''.$_SERVER["HTTP_REFERER"].'\';return false;">此处</a>返回';
+//echo '点击<a href="#" onclick="window.location.href=\''.$_SERVER["HTTP_REFERER"].'\';return false;">此处</a>返回';
 //echo '<meta http-equiv="refresh" content="0.8;url="'.$source.'">';
-//echo '<script language="javascript">history.go(-1);</script>';
+echo '<script language="javascript">location.href=\''.$_SERVER["HTTP_REFERER"].'\';</script>';
 
 
 mysql_close($con);

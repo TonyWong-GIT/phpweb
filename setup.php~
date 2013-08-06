@@ -17,19 +17,25 @@ function add(){
   task = document.getElementById('task-info').value;
   type = document.getElementById('type-info').value;
   keyword = document.getElementById('keyword-info').value;
-  window.location.href="keyword_add.php?task="+task+"&type="+type+"&keyword="+keyword+"";
+  if(confirm("任务名: "+task+"\n子任务名: "+type+"\n关键字: ""\n你确信要加入？")){
+  	window.location.href="keyword_add.php?task="+task+"&type="+type+"&keyword="+keyword+"";
+  }
 };
 function del(){
   task = document.getElementById('task-info').value;
   type = document.getElementById('type-info').value;
   keyword = document.getElementById('keyword-info').value;
-  window.location.href="keyword_del.php?task="+task+"&type="+type+"&keyword="+keyword+"";
+  if(confirm("任务名: "+task+"\n子任务名: "+type+"\n关键字: ""\n你确信要删除？")){
+  	window.location.href="keyword_del.php?task="+task+"&type="+type+"&keyword="+keyword+"";
+  }
 };
 function update(){
   task = document.getElementById('task-info').value;
   type = document.getElementById('type-info').value;
   keyword = document.getElementById('keyword-info').value;
-  window.location.href="keyword_update.php?task='"+task+"'&type='"+type+"'&keyword='"+keyword+"'");
+  if(confirm("任务名: "+task+"\n子任务名: "+type+"\n关键字: ""\n你确信要修改？")){
+  	window.location.href="keyword_add.php?task="+task+"&type="+type+"&keyword="+keyword+"";
+  }
 };
 </script>
 
@@ -96,9 +102,9 @@ function update(){
 			<div class="setup-window-keyword-content-keyword">
 
 				<p>任务:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="task_input" id="task-info" type="text" class="setup-task-input-text"></p>	
-	
+				
 				<p>子任务:&nbsp;<input name="type_input" id="type-info" type="text" class="setup-type-input-text" ></p>
-
+				
 				<p>关键字:&nbsp;<textarea name="keyword_input" id="keyword-info" class="setup-keyword-input-text"></textarea></p>	
 		
 				<!--- 此处显示关键字列表class为keyword_info -->
@@ -112,11 +118,7 @@ function update(){
 			</div>
 		</div>
 
-		<div class="setup-window-sys">
-			<div class="setup-window-sys-head">系统配置</div>
-			<div class="setup-window-sys-content"></div>
-			<!--  此处显示系统盘配置的相关信息 -->
-		</div>
+
 
 	<div class="setup-window-info">
 		<div class="setup-window-info-head">任务概要</div>

@@ -19,7 +19,7 @@ function showChart(data_url, comefrom, task, type, keyword, startdate, enddate)
 }
 function whitelistadd(url, comefrom, task, type, keyword, time, number, title, source)
 {
-	if(confirm("你确信要加入白名单？"))
+	if(confirm("任务名: "+task+"\n子任务名: "+type+"\n关键字: "+keyword+"\n来源: "+comefrom+"\nURL: "+url+"你确信要加入白名单？"))
     	{//如果是true ，那么就把页面转向whitelist_add.php
         	window.location.href="whitelist_add.php?task="+task+"&type="+type+"&keyword="+keyword+"&url="+url+"&comefrom="+comefrom+"&time="+time+"&number="+number+"&title="+title+"&source="+source;
    	}
@@ -65,7 +65,12 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
 	  //$type = substr(substr($type,1),0,strlen($type)-2);//去掉传递过来的字符串的左右"",有时候会出现此问题，不清楚是什么问题
   }
 
-  $form_day = 7;
+  $res_day = 'select * from `metaetc` where 1';
+  $rows_day = mysql_query($res_day);
+  while($row_day = mysql_fetch_array($rows_day)){
+	$form_day = $row_day['day'];
+  }
+  //echo '-----------'.$form_day;
   $form_day_start = $form_day-2*$form_day;
 
   $form_keyword = $_GET['keyword'];
@@ -123,7 +128,7 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
 		<th width="30px" class="table-center-th">编号</th>
 	        <th width="300px" class="table-center-th">URL</th>
 		<th width="370px" class="table-center-th">标题</th>
-	        <th width="100px" class="table-center-th">时间</th>
+	        <th width="100px" class="table-center-th">日期</th>
 		<th width="100px" class="table-center-th">来源</th>
 		<th width="100px" class="table-center-th">权重</th>
 		<th width="90px" class="table-center-th">加入白名单</th>
@@ -232,12 +237,12 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
 
   $chart_date_start = date("Ymd",strtotime("$form_day_start day"));
   $chart_year = substr($chart_date_start,0,4); 
-  if(strpos(substr($chart_date_start,4),'0') == 0){
+  if(substr($chart_date_start,4,1) == '0'){
 	$chart_month = substr($chart_date_start,5,1);
   }else{
 	$chart_month = substr($chart_date_start,4,2);
   }
-  if(strpos(substr($chart_date_start,6),'0') == 0){
+  if(substr($chart_date_start,6,1) == '0'){
 	$chart_day = substr($chart_date_start,7,1);
   }else{
 	$chart_day = substr($chart_date_start,6,2);
@@ -247,12 +252,12 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
   //echo $chart_date_start;  //  7/9/2013
   $chart_date_end = date("Ymd");
   $chart_year = substr($chart_date_end,0,4); 
-  if(strpos(substr($chart_date_end,4),'0') == 0){
+  if(substr($chart_date_end,4,1) == '0'){
 	$chart_month = substr($chart_date_end,5,1);
   }else{
 	$chart_month = substr($chart_date_end,4,2);
   }
-  if(strpos(substr($chart_date_end,6),'0') == 0){
+  if(substr($chart_date_end,6,1) == '0'){
 	$chart_day = substr($chart_date_end,7,1);
   }else{
 	$chart_day = substr($chart_date_end,6,2);
@@ -283,9 +288,13 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
 					<td class="table-grid">'.$tKeyword['title'].'</td>
 					<td class="table-grid">'.$tKeyword['time'].'</td>
 					<td class="table-grid">'.$tKeyword['comefrom'].'</td>
-					<td class="table-grid">'.$tKeyword['number'].'</td>
-					<td class="table-grid"><a href="#" class="easyui-linkbutton" onclick=\'whitelistadd("'.$tKeyword['url'].'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$tKeyword['keyword'].'","'.$tKeyword['time'].'","'.$tKeyword['number'].'","'.$tKeyword['title'].'","keyword.php")\'>加入</a></td>
-		     </tr>';
+					<td class="table-grid">'.$tKeyword['number'].'</td>';
+		if($tKeyword['flag_whitelist'] == 1){
+			echo '<td class="table-grid">已加入</td>';
+		}else{
+			echo '			<td class="table-grid"><a href="#" class="easyui-linkbutton" onclick=\'whitelistadd("'.$tKeyword['url'].'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$tKeyword['keyword'].'","'.$tKeyword['time'].'","'.$tKeyword['number'].'","'.$tKeyword['title'].'","keyword.php")\'>加入</a></td>';
+		}
+		echo '</tr>';
 		
 	  }
 

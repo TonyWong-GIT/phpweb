@@ -183,7 +183,7 @@ if __name__ == '__main__':
   rows_keyword = cur_keyword.fetchall()
   print "开始检索。。。\n" 
   for row_keyword in rows_keyword:
-      search(row_keyword[2], row_keyword[1], row_keyword[0],['谷歌'],6)
+      search(row_keyword[2], row_keyword[1], row_keyword[0],['谷歌','百度','搜搜'],6)
       conn.commit()
   
   #['谷歌','百度','搜搜']

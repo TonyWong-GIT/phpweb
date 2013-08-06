@@ -30,23 +30,23 @@ a:active {
 }
 
 .setup-task-input-text {
-	width: 300px;
-	height: 30px;
-	padding: 3px 5px 5px 10px;
+	width: 180px;
+	height: 20px;
+	padding: 5px 5px 10px 10px;
 	border:1px solid #ccc;
 }
 
 .setup-type-input-text {
-	width: 300px;
-	height: 30px;
-	padding: 3px 5px 5px 10px;
+	width: 180px;
+	height: 20px;
+	padding: 5px 5px 10px 10px;
 	border:1px solid #ccc;
 }
 
 .setup-keyword-input-text {
 	width: 300px;
-	height: 100px;
-	padding: 3px 5px 5px 10px;
+	height: 300px;
+	padding: 5px 5px 10px 10px;
 	border:1px solid #ccc;
 }
 
@@ -77,7 +77,7 @@ a:active {
 	left: 215px;
 	top:4px;
 	width: 660px;
-	height: 263px;
+	height: 545px;
 	border:1px solid #ccc;
 }
 .setup-window-keyword-head {
@@ -89,25 +89,25 @@ a:active {
 .setup-window-keyword-content-keyword {
 	position: absolute;
 	left: 80px;
-	top:32px;
+	top:60px;
 	width: 460px;
-	height: 232px;
+	height: 480px;
 }
 
 .setup-window-keyword-content-setup {
 	position: absolute;
-	left: 500px;
-	top:45px;
+	left: 490px;
+	top:400px;
 	width: 100px;
-	height: 232px;
+	height: 30px;
 }
 
 .setup-window-keyword-content {
 	width: 658px;
-	height: 231px;
+	height: 512px;
 	border:1px solid #ccc;
 }
-
+/*
 .setup-window-sys {
 	position: absolute;
 	left: 215px;
@@ -127,7 +127,7 @@ a:active {
 	height: 243px;
 	border:1px solid #ccc;
 }
-
+*/
 .setup-window-info {
 	position: absolute;
 	left: 880px;

@@ -1,6 +1,7 @@
 <html lang="zh-CN">
   <head>
     <meta charset="utf-8">
+
 <?php
 $con = mysql_connect("localhost","root","1234");
 if (!$con)
@@ -61,8 +62,7 @@ if($keyword == '' || $task == '' || $type == ''){
 		}
 		//echo '----INSERT INTO keyword(`keyword`,`type`,`task`) VALUES ("'.$keyword_test.'", "'.$type.'","'.$task.'")';
 		mysql_query('INSERT INTO keyword(`keyword`,`type`,`task`) VALUES ("'.$keyword_test.'", "'.$type.'","'.$task.'")');
-		echo '添加成功！！';
-		echo '<meta http-equiv="refresh" content="0.8;url=setup.php">';
+		echo '<script language="javascript">location.href=\''.$_SERVER["HTTP_REFERER"].'\';</script>';
 		mysql_close($con);
 	}
 }

@@ -18,7 +18,7 @@ function showChart_special(data_url, comefrom, task, type, keyword, startdate, e
 }
 function whitelistadd(url, comefrom, task, type, keyword, time, number, title, source)
 {
-	if(confirm("你确信要加入白名单？"))
+	if(confirm("任务名: "+task+"\n子任务名: "+type+"\n关键字: "+keyword+"\n来源: "+comefrom+"\nURL: "+url+"\n你确信要加入白名单？"))
     	{//如果是true ，那么就把页面转向whitelist_add.php
         	window.location.href="whitelist_add.php?task="+task+"&type="+type+"&keyword="+keyword+"&url="+url+"&comefrom="+comefrom+"&time="+time+"&number="+number+"&title="+title+"&source="+source;
    	}
@@ -310,7 +310,7 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
 		<th width="30px" class="table-center-th">编号</th>
 	        <th width="300px" class="table-center-th">URL</th>
 		<th width="370px" class="table-center-th">标题</th>
-	        <th width="100px" class="table-center-th">时间</th>
+	        <th width="100px" class="table-center-th">日期</th>
 		<th width="100px" class="table-center-th">来源</th>
 		<th width="100px" class="table-center-th">权重</th>
 		<th width="90px" class="table-center-th">加入白名单</th>

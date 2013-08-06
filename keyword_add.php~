@@ -1,6 +1,16 @@
 <html lang="zh-CN">
   <head>
     <meta charset="utf-8">
+<script>
+function keywordadd(url, comefrom, task, type, keyword, time, number, title, source)
+{
+	if(confirm("任务名: "+task+"\n子任务名: "+type+"\n关键字: "+"\n你确信要增加吗？"))
+    	{//如果是true ，那么就把页面转向whitelist_add.php
+        	window.location.href="whitelist_del.php?task="+task+"&type="+type+"&keyword="+keyword+"&url="+url+"&comefrom="+comefrom+"&time="+time+"&number="+number+"&title="+title+"&source="+source;
+   	}
+
+}
+</script>
 <?php
 $con = mysql_connect("localhost","root","1234");
 if (!$con)
@@ -61,8 +71,7 @@ if($keyword == '' || $task == '' || $type == ''){
 		}
 		//echo '----INSERT INTO keyword(`keyword`,`type`,`task`) VALUES ("'.$keyword_test.'", "'.$type.'","'.$task.'")';
 		mysql_query('INSERT INTO keyword(`keyword`,`type`,`task`) VALUES ("'.$keyword_test.'", "'.$type.'","'.$task.'")');
-		echo '添加成功！！';
-		//echo '<meta http-equiv="refresh" content="0.8;url=setup.php">';
+		echo '<script language="javascript">location.href=\''.$_SERVER["HTTP_REFERER"].'\';</script>';
 		mysql_close($con);
 	}
 }

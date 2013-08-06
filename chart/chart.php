@@ -116,8 +116,8 @@ include("./Includes/FusionCharts.php");
 
 	$sql_chart = $sql_chart.' ORDER BY `time` asc';
 
-
-	echo "<BR><BR><h2 align='center'>来自".$comefrom."的url=".$data_url."的动态分布折线图</h2><BR><BR>";
+	echo '<h3><BR /><BR />来自&nbsp;&nbsp;任务: '.$task.'&nbsp;&nbsp;子任务: '.$type.'&nbsp;&nbsp;关键字: '.$keyword.'&nbsp;&nbsp;来源: '.$comefrom;
+	echo "<BR />URL: ".$data_url."的动态分布折线图<BR /><BR /></h3>";
 	
 /*	echo 'SELECT `number`,`time` FROM `webpage` WHERE `url`="'.$data_url.'" AND `comefrom`="'.$comefrom.'" AND `task`="'.$task.'"AND `type`="'.$type.'"AND `keyword`="'.$keyword.'"AND `time`>="'.$startdate.'"AND `time` <= "'.$enddate.' ORDER BY `time` asc';
 	echo 'SELECT `number`,`time` FROM `webpage` WHERE `url`="'.$data_url.'" AND `comefrom`="'.$comefrom.'" ORDER BY `time` asc((((';
@@ -173,6 +173,7 @@ include("./Includes/FusionCharts.php");
 	echo '开始日期:<input name="startdate" type="text" class="easyui-datebox" value="'.$form_start_date.'">&nbsp;';
 	echo '终止日期:<input name="enddate" type="text" class="easyui-datebox" value="'.$form_end_date.'">&nbsp;&nbsp;';
 	echo '<input type="submit" value="显示" /></form>';
+	echo '<input type="button" value="导出" />';
 ?>
 <BR><BR>
 

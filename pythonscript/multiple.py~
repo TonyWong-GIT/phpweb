@@ -86,7 +86,7 @@ def do_search(table_task, table_type, keyword,host,page):
 				cur_webpage.execute('insert into `webpage`(`title`,`url`,`keyword`,`time`,`comefrom`,`number`,`type`,`task`) values("%s","%s","%s","%s","%s",%d,"%s","%s")'%(str(title_words), str(cite_words), str(keyword), str(table_time), str(host), table_number, str(table_type), str(table_task) ))
 #				print 'insert into `webpage`("title","url","keyword","time","comefrom","number","type","task") values("%s","%s","%s","%s","%s",%d,"%s","%s")'%(str(title_words), str(cite_words), str(keyword), str(table_time), str(host), table_number, str(table_type), str(table_task) )
 				del mine_data[0]
-			if pagenumber >= 70:
+			if pagenumber >= 10* page:
 				return
 			pagenumber = pagenumber + 10
 			continue
