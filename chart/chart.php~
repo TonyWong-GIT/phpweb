@@ -2,7 +2,6 @@
 //We've included ../Includes/FusionCharts.php, which contains functions
 //to help us easily embed the charts.
 include("./Includes/FusionCharts.php");
-require ('../fpdf/fpdf.php');
 //We've also included ../Includes/FC_Colors.asp, having a list of colors
 //to apply different colors to the chart's columns. We provide a function for it - getFCColor()
 ?>

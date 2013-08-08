@@ -73,38 +73,14 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
   //echo '-----------'.$form_day;
   $form_day_start = $form_day-2*$form_day;
 
-  $form_keyword = $_GET['keyword'];
   $form_start_date = $_GET['start_date'];
   $form_end_date = $_GET['end_date'];
-  
-  $resKeywordType = mysql_query('SELECT `keyword` FROM `keyword` WHERE `task`="'.$task.'" and `type`="'.$type.'"');
   
 
   echo '<div region="north" border="true" class="menu-north">';
   echo '<form action="keyword.php" method="get" name="form_keyword">';
-  //?task='.$task.'&type='.$type.'
-  
-  echo '关键字:'.'<select name="keyword" >';
-  $keyword_flag = 0;
-/*while($tKeywordType = mysql_fetch_array($resKeywordType))
-  {	
-	echo '<option value ="'.$tKeywordType[0].'"';
-	if($tKeywordType[0] == $form_keyword){ echo ' selected="selected"'; $keyword_flag = 1;}
-	echo '>'.$tKeywordType[0].'</option>';
-  }  
-  if($keyword_flag = 0){
-  	echo '<option value ="" selected="selected"></option>';
-  }else{
-  	echo '<option value =""></option>';
-  }
-*/
-  while($tKeywordType = mysql_fetch_array($resKeywordType))
-  {	
-	echo '<option value ="'.$tKeywordType[0].'"';
-	echo '>'.$tKeywordType[0].'</option>';
-  }  
-  echo '<option value ="" selected="selected"></option>';
-  echo '</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+
+  echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 
   echo '<input type="hidden" name="form_task" value='.$task.'>';
   echo '<input type="hidden" name="form_type" value='.$type.'>';
@@ -136,13 +112,9 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
 
   $i = 0;
   $sql_query = '';
-  if($form_keyword != ''){
-	$sql_query = 'SELECT * FROM `webpage` WHERE `task`="'.$task.'" and `type`="'.$type.'" and `keyword`="'.$form_keyword.'"';
-	$sql_count = 'SELECT COUNT(*) FROM `webpage` WHERE `task`="'.$task.'" and `type`="'.$type.'" and `keyword`="'.$form_keyword.'"';
-  }else{
-	$sql_query = 'SELECT * FROM `webpage` WHERE `task`="'.$task.'" and `type`="'.$type.'"';
-	$sql_count = 'SELECT COUNT(*) FROM `webpage` WHERE `task`="'.$task.'" and `type`="'.$type.'"';
-  }
+
+  $sql_query = 'SELECT * FROM `webpage` WHERE `task`="'.$task.'" and `type`="'.$type.'"';
+  $sql_count = 'SELECT COUNT(*) FROM `webpage` WHERE `task`="'.$task.'" and `type`="'.$type.'"';
   //日期格式转化
   if($form_start_date != ''){
 	//$form_start_date;
@@ -320,7 +292,7 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
 	if(ceil($form_number/$form_page) <= 1){
 		echo '<td><a href="#" class="l-btn l-btn-plain l-btn-disabled">';
 	}else{
-		echo '<td><a href=\'keyword.php?task='.$task.'&type='.$type.'&form_number=0 &keyword='.$form_keyword.'&source='.$comefrom.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
+		echo '<td><a href=\'keyword.php?task='.$task.'&type='.$type.'&form_number=0 &source='.$comefrom.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
 	}
 	echo '  <span class="l-btn-left"><span class="l-btn-text">
 		<span class="l-btn-empty pagination-first">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span></a></td>';//首页跳转
@@ -329,7 +301,7 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
 	if(ceil($form_number/$form_page) <= 1){
 		echo '<td><a href="#" class="l-btn l-btn-plain l-btn-disabled">';
 	}else{
-		echo '<td><a href=\'keyword.php?task='.$task.'&type='.$type.'&form_number='.((ceil(($form_number-$form_page)/$form_page)-1)*$form_page).'&keyword='.$form_keyword.'&source='.$comefrom.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
+		echo '<td><a href=\'keyword.php?task='.$task.'&type='.$type.'&form_number='.((ceil(($form_number-$form_page)/$form_page)-1)*$form_page).'&source='.$comefrom.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
 	}
 	echo '  <span class="l-btn-left"><span class="l-btn-text">
 		<span class="l-btn-empty pagination-prev">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span></a></td>';//前页跳转
@@ -345,7 +317,7 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
 	if(ceil($form_number/$form_page) >= ceil($data_count/$form_page)){
 		echo '<td><a href="#" class="l-btn l-btn-plain l-btn-disabled">';
 	}else{
-		echo '<td><a href=\'keyword.php?task='.$task.'&type='.$type.'&form_number='.$form_number.'&keyword='.$form_keyword.'&source='.$comefrom.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
+		echo '<td><a href=\'keyword.php?task='.$task.'&type='.$type.'&form_number='.$form_number.'&source='.$comefrom.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
 	}
 	echo '  <span class="l-btn-left"><span class="l-btn-text">
 		<span class="l-btn-empty pagination-next">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span></a></td>';//下页跳转
@@ -353,7 +325,7 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
 	if(ceil($form_number/$form_page) >= ceil($data_count/$form_page)){
 		echo '<td><a href="#" class="l-btn l-btn-plain l-btn-disabled">';
 	}else{
-		echo '<td><a href=\'keyword.php?task='.$task.'&type='.$type.'&form_number='.((ceil($data_count/$form_page)-1)*$form_page).'&keyword='.$form_keyword.'&source='.$comefrom.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
+		echo '<td><a href=\'keyword.php?task='.$task.'&type='.$type.'&form_number='.((ceil($data_count/$form_page)-1)*$form_page).'&source='.$comefrom.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
 	}
 	echo '  <span class="l-btn-left"><span class="l-btn-text">
 		<span class="l-btn-empty pagination-last">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span></a></td>';//后页跳转

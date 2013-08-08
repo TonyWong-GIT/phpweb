@@ -22,11 +22,11 @@ $number = $_GET['number'];
 $time = $_GET['time'];
 $source = $_GET['source'];
 
-mysql_query('UPDATE `appear` SET `flag_whitelist`=0 where `url`="'.$url.'" and `keyword`="'.$keyword.'" and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
-mysql_query('UPDATE `specialurl` SET `flag_whitelist`=0 where `url`="'.$url.'" and `keyword`="'.$keyword.'" and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
-mysql_query('UPDATE `disappear` SET `flag_whitelist`=0 where `url`="'.$url.'" and `keyword`="'.$keyword.'" and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
-mysql_query('UPDATE `webpage` SET `flag_whitelist`=0 where `url`="'.$url.'" and `keyword`="'.$keyword.'" and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
-mysql_query('DELETE FROM `whitelist` where `title`="'.$title.'" and `url`="'.$url.'" and `keyword`="'.$keyword.'" and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
+mysql_query('UPDATE `appear` SET `flag_whitelist`=0 where `url`="'.$url.'" and `keyword`=\''.$keyword.'\' and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
+mysql_query('UPDATE `specialurl` SET `flag_whitelist`=0 where `url`="'.$url.'" and `keyword`=\''.$keyword.'\' and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
+mysql_query('UPDATE `disappear` SET `flag_whitelist`=0 where `url`="'.$url.'" and `keyword`=\''.$keyword.'\' and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
+mysql_query('UPDATE `webpage` SET `flag_whitelist`=0 where `url`="'.$url.'" and `keyword`=\''.$keyword.'\' and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
+mysql_query('DELETE FROM `whitelist` where `title`="'.$title.'" and `url`="'.$url.'" and `keyword`=\''.$keyword.'\' and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
 //echo 'DELETE FROM `whitelist` where `title`="'.$title.'" and `url`="'.$url.'" and `keyword`="'.$keyword.'" and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"';
 
 //echo '点击<a href="#" onclick="window.location.href=\''.$_SERVER["HTTP_REFERER"].'\';return false;">此处</a>返回';

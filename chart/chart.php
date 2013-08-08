@@ -173,7 +173,7 @@ include("./Includes/FusionCharts.php");
 	echo '开始日期:<input name="startdate" type="text" class="easyui-datebox" value="'.$form_start_date.'">&nbsp;';
 	echo '终止日期:<input name="enddate" type="text" class="easyui-datebox" value="'.$form_end_date.'">&nbsp;&nbsp;';
 	echo '<input type="submit" value="显示" /></form>';
-	echo '<input type="button" value="导出" />';
+	//echo '<input type="button" value="导出" />';
 ?>
 <BR><BR>
 

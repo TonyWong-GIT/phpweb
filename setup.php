@@ -17,15 +17,15 @@ function add(){
   task = document.getElementById('task-info').value;
   type = document.getElementById('type-info').value;
   keyword = document.getElementById('keyword-info').value;
-  if(confirm("任务名: "+task+"\n子任务名: "+type+"\n关键字: ""\n你确信要加入？")){
-  	window.location.href="keyword_add.php?task="+task+"&type="+type+"&keyword="+keyword+"";
+  if(confirm("任务名: "+task+"\n子任务名: "+type+"\n关键字: "+keyword+"\n你确信要加入？")){
+  	window.location.href="keyword_add.php?task="+task+"&type="+type+"&keyword="+keyword;
   }
 };
 function del(){
   task = document.getElementById('task-info').value;
   type = document.getElementById('type-info').value;
   keyword = document.getElementById('keyword-info').value;
-  if(confirm("任务名: "+task+"\n子任务名: "+type+"\n关键字: ""\n你确信要删除？")){
+  if(confirm("任务名: "+task+"\n子任务名: "+type+"\n关键字: "+keyword+"\n你确信要删除？")){
   	window.location.href="keyword_del.php?task="+task+"&type="+type+"&keyword="+keyword+"";
   }
 };
@@ -33,7 +33,7 @@ function update(){
   task = document.getElementById('task-info').value;
   type = document.getElementById('type-info').value;
   keyword = document.getElementById('keyword-info').value;
-  if(confirm("任务名: "+task+"\n子任务名: "+type+"\n关键字: ""\n你确信要修改？")){
+  if(confirm("任务名: "+task+"\n子任务名: "+type+"\n关键字: "+keyword+"\n你确信要修改？")){
   	window.location.href="keyword_add.php?task="+task+"&type="+type+"&keyword="+keyword+"";
   }
 };
@@ -71,19 +71,20 @@ function update(){
 						 document.getElementById(\'task-info\').value=\''.$row['task'].'\'">'.$row['task'].'</a></span>';		
 		//echo '<span><a href="#" onclick=\'change-task("'.$row['task'].'")\'>'.$row['task'].'</a></span>';
 		echo '<ul>';
-		$sql_keyword_type = 'select distinct `type` from `keyword` where `task`="'.$row['task'].'"';
+		$sql_keyword_type = 'select distinct `type` from `keyword` where `task`=\''.$row['task'].'\'';
 		
 		$res_keyword_type = mysql_query($sql_keyword_type);
 		while($row1 = mysql_fetch_array($res_keyword_type)){
 			$keyword_string = '';
-			$sql_keyword_keyword = 'select distinct `keyword` from `keyword` where `task`="'.$row['task'].'"and `type`="'.$row1['type'].'"';		
+			$sql_keyword_keyword = 'select distinct `keyword` from `keyword` where `task`=\''.$row['task'].'\'and `type`=\''.$row1['type'].'\'';		
+			//echo '<li>select distinct `keyword` from `keyword` where `task`=\''.$row['task'].'\'and `type`=\''.$row1['type'].'\'</li>';
 			$res_keyword_keyword = mysql_query($sql_keyword_keyword);
 			while($row2 = mysql_fetch_array($res_keyword_keyword)){
-				$keyword_string = $keyword_string.$row2['keyword'].' ';
+				$keyword_string = $row2['keyword'];
 			}
 			//echo $keyword_string;//null
 			echo '<li><span><a href="#" onclick="document.getElementById(\'keyword-info\').value=\''.$keyword_string.'\';
-					document.getElementById(\'type-info\').value=\''.$row1['type'].'\';
+				document.getElementById(\'type-info\').value=\''.$row1['type'].'\';
 				document.getElementById(\'task-info\').value=\''.$row['task'].'\'">'.$row1['type'].'</a></span></li>';
 		}
 		echo '</ul>';
