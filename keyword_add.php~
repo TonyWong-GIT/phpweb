@@ -21,7 +21,7 @@ if($keyword == '' || $task == '' || $type == ''){
 	echo '<meta http-equiv="refresh" content="0.8;url=setup.php">';
 }else{
 
-	$result = mysql_query('select distinct `type` from `keyword` where `task`="'.$task.'"');
+	$result = mysql_query('select distinct `type` from `keyword` where `task`="'.trim($task).'"');
 	//取回结果数据，使用了mysql_fetch_row()
 	$i = 0;
 	//echo mysql_fetch_array($result) or die(mysql_error()); //null
@@ -37,9 +37,9 @@ if($keyword == '' || $task == '' || $type == ''){
 	if($i == 0)
 	{
 		//strtr($keyword,'"','“');
-		mysql_query('INSERT INTO keyword(`keyword`,`type`,`task`) VALUES (\''.$keyword.'\', \''.$type.'\',\''.$task.'\')');
-		echo $keyword.'添加成功！！！INSERT INTO keyword(`keyword`,`type`,`task`) VALUES (\''.$keyword.'\', \''.$type.'\',\''.$task.'\')';
-		//echo '<script language="javascript">location.href=\''.$_SERVER["HTTP_REFERER"].'\';</script>';
+		mysql_query('INSERT INTO keyword(`keyword`,`type`,`task`) VALUES (\''.trim($keyword).'\', \''.trim($type).'\',\''.trim($task).'\')');
+		echo $keyword.'添加成功！！！';
+		echo '<script language="javascript">location.href=\''.$_SERVER["HTTP_REFERER"].'\';</script>';
 		mysql_close($con);
 	}
 }

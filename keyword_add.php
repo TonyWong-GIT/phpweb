@@ -12,16 +12,16 @@ if (!$con)
 mysql_select_db("inet", $con);
 mysql_query("set names utf8");     //php解决中文显示,,,,,,important!!!!!!!!!!!!!!!!!!!!
 
-$keyword = $_GET['keyword'];
-$type = $_GET['type'];
-$task = $_GET['task'];
+$keyword = trim($_GET['keyword']);
+$type = trim($_GET['type']);
+$task = trim($_GET['task']);
 
 if($keyword == '' || $task == '' || $type == ''){
 	echo '添加失败！信息填写不完整';
 	echo '<meta http-equiv="refresh" content="0.8;url=setup.php">';
 }else{
 
-	$result = mysql_query('select distinct `type` from `keyword` where `task`="'.$task.'"');
+	$result = mysql_query('select distinct `type` from `keyword` where `task`="'.trim($task).'"');
 	//取回结果数据，使用了mysql_fetch_row()
 	$i = 0;
 	//echo mysql_fetch_array($result) or die(mysql_error()); //null
@@ -37,8 +37,8 @@ if($keyword == '' || $task == '' || $type == ''){
 	if($i == 0)
 	{
 		//strtr($keyword,'"','“');
-		mysql_query('INSERT INTO keyword(`keyword`,`type`,`task`) VALUES (\''.$keyword.'\', \''.$type.'\',\''.$task.'\')');
-		echo $keyword.'添加成功！！！INSERT INTO keyword(`keyword`,`type`,`task`) VALUES (\''.$keyword.'\', \''.$type.'\',\''.$task.'\')';
+		mysql_query('INSERT INTO keyword(`keyword`,`type`,`task`) VALUES (\''.trim($keyword).'\', \''.trim($type).'\',\''.trim($task).'\')');
+		echo $keyword.'添加成功！！！';
 		echo '<script language="javascript">location.href=\''.$_SERVER["HTTP_REFERER"].'\';</script>';
 		mysql_close($con);
 	}

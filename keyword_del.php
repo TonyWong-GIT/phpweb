@@ -11,9 +11,9 @@ if (!$con)
 mysql_select_db("inet", $con);
 mysql_query("set names utf8");     //php解决中文显示,,,,,,important!!!!!!!!!!!!!!!!!!!!
 
-$keyword = $_GET['keyword'];
-$type = $_GET['type'];
-$task = $_GET['task'];
+$keyword = trim($_GET['keyword']);
+$type = trim($_GET['type']);
+$task = trim($_GET['task']);
 //echo '++++++++++++++++++'.(isset($task) && !empty($task)).'++++++++++++==';//存在变量且变量不为空的取反，，，针对字符串
 if($task == ''){  
 	echo '删除失败！任务信息填写不完整';
@@ -27,13 +27,13 @@ if($task == ''){
 	while($t = mysql_fetch_array($result)){
 		if($t['task'] == $task){
 			$i = 1;
-			mysql_query('delete from `keyword` where `task` ="'.$task.'"');
-			mysql_query('delete from `specialurl` where `task` ="'.$task.'"');
-			mysql_query('delete from `timerecord` where `task` ="'.$task.'"');
-			mysql_query('delete from `appear` where `task` ="'.$task.'"');
-			mysql_query('delete from `disappear` where `task` ="'.$task.'"');
-			mysql_query('delete from `whitelist` where `task` ="'.$task.'"');
-			mysql_query('delete from `webpage` where `task` ="'.$task.'"');
+			mysql_query('delete from `keyword` where `task` ="'.trim($task).'"');
+			mysql_query('delete from `specialurl` where `task` ="'.trim($task).'"');
+			mysql_query('delete from `timerecord` where `task` ="'.trim($task).'"');
+			mysql_query('delete from `appear` where `task` ="'.trim($task).'"');
+			mysql_query('delete from `disappear` where `task` ="'.trim($task).'"');
+			mysql_query('delete from `whitelist` where `task` ="'.trim($task).'"');
+			mysql_query('delete from `webpage` where `task` ="'.trim($task).'"');
 			echo '删除成功！！任务"'.$task.'"已删除！！！';
 			echo '<meta http-equiv="refresh" content="3;url=setup.php">';
 		}

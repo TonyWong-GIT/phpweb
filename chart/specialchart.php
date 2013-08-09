@@ -126,8 +126,9 @@ include("./Includes/FusionCharts.php");
 
 	$res_sql_chart_record = mysql_query($sql_chart_record);
 	$res_sql_chart = mysql_query($sql_chart);
-
-	echo "<BR><BR><h2 align='center'>来自".$comefrom."的url=".$data_url."的动态分布折线图</h2><BR><BR>";
+	
+	echo '<h3><BR /><BR />&nbsp;&nbsp;任务: '.$task.'&nbsp;&nbsp;子任务: '.$type.'&nbsp;&nbsp;关键字: '.$keyword.'&nbsp;&nbsp;来源: '.$comefrom;
+	echo "<BR />URL: ".$data_url."的动态分布折线图</h2><BR><BR>";
 
 	$iTimeRecord=0;
 	while($row=mysql_fetch_array($res_sql_chart_record))

@@ -12,15 +12,15 @@ if (!$con)
 mysql_select_db("inet", $con);
 mysql_query("set names utf8");     //php解决中文显示,,,,,,important!!!!!!!!!!!!!!!!!!!!
 
-$keyword = $_GET['keyword'];
-$type = $_GET['type'];
-$task = $_GET['task'];
-$comefrom = $_GET['comefrom'];
-$title = $_GET['title'];
-$url = $_GET['url'];
+$keyword = trim($_GET['keyword']);
+$type = trim($_GET['type']);
+$task = trim($_GET['task']);
+$comefrom = trim($_GET['comefrom']);
+$title = trim($_GET['title']);
+$url = trim($_GET['url']);
 $number = $_GET['number'];
-$time = $_GET['time'];
-$source = $_GET['source'];
+$time = trim($_GET['time']);
+$source = trim($_GET['source']);
 
 mysql_query('UPDATE `appear` SET `flag_whitelist`=1 where `url`="'.$url.'" and `keyword`=\''.$keyword.'\' and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
 mysql_query('UPDATE `specialurl` SET `flag_whitelist`=1 where `url`="'.$url.'" and `keyword`=\''.$keyword.'\' and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');

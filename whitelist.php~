@@ -14,7 +14,7 @@
 function showChart(data_url, comefrom, task, type, keyword, startdate, enddate)
 {
 	//window.open("chart/chart.php?data_url="+data_url+" &comefrom="+comefrom);
-	window.open("chart/chart.php?data_url="+data_url+" &comefrom="+comefrom+" &task="+task+" &type="+type+" &keyword="+keyword+" &startdate="+startdate+" &enddate="+enddate+"\"",'url_window','height=500,width=800,top=150,left=300,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
+	window.open("chart/Chart.php?data_url="+data_url+" &comefrom="+comefrom+" &task="+task+" &type="+type+" &keyword="+keyword+" &startdate="+startdate+" &enddate="+enddate+"\"",'url_window','height=500,width=800,top=150,left=300,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
 }
 function whitelistdel(url, comefrom, task, type, keyword, time, number, title, source)
 {
@@ -307,7 +307,7 @@ function whitelistdel(url, comefrom, task, type, keyword, time, number, title, s
 	if(ceil($form_number/$form_page) >= ceil($data_count/$form_page)){
 		echo '<td><a href="#" class="l-btn l-btn-plain l-btn-disabled">';
 	}else{
-		echo '<td><a href=\'whitelist.php?task='.$task.'&type='.$type.'&form_number='.((ceil($data_count/$form_page)-1)*$form_page).'&keyword='.$form_keyword.'&source='.$comefrom.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
+		echo '<td><a href=\'whitelist.php?task='.$task.'&type='.$type.'&form_number='.((ceil($data_count/$form_page)-1)*$form_page).'&source='.$comefrom.'&start_date='.$form_start_date.'&end_date='.$form_end_date.'\' class="l-btn l-btn-plain">';
 	}
 	echo '  <span class="l-btn-left"><span class="l-btn-text">
 		<span class="l-btn-empty pagination-last">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span></a></td>';//后页跳转

@@ -14,7 +14,7 @@
 function showChart_special(data_url, comefrom, task, type, keyword, startdate, enddate, sourcefile)
 {
 	//window.open("chart/chart.php?data_url="+data_url+" &comefrom="+comefrom);
-	window.open("chart/specialchart.php?data_url="+data_url+" &comefrom="+comefrom+" &task="+task+" &type="+type+" &keyword="+keyword+" &startdate="+startdate+" &enddate="+enddate+"\" &sourcefile="+sourcefile,'url_window', 'height=500,width=800,top=150, left=300,toolbar=no, menubar=no,scrollbars=no, resizable=no,location=no, status=no');
+	window.open("chart/Chart.php?data_url="+data_url+" &comefrom="+comefrom+" &task="+task+" &type="+type+" &keyword="+keyword+" &startdate="+startdate+" &enddate="+enddate+"\" &sourcefile="+sourcefile,'url_window','height=600,width=1200,top=150,left=300,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
 }
 function whitelistadd(url, comefrom, task, type, keyword, time, number, title, source)
 {

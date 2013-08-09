@@ -116,7 +116,7 @@ include("./Includes/FusionCharts.php");
 
 	$sql_chart = $sql_chart.' ORDER BY `time` asc';
 
-	echo '<h3><BR /><BR />来自&nbsp;&nbsp;任务: '.$task.'&nbsp;&nbsp;子任务: '.$type.'&nbsp;&nbsp;关键字: '.$keyword.'&nbsp;&nbsp;来源: '.$comefrom;
+	echo '<h3><BR /><BR />&nbsp;&nbsp;任务: '.$task.'&nbsp;&nbsp;子任务: '.$type.'&nbsp;&nbsp;关键字: '.$keyword.'&nbsp;&nbsp;来源: '.$comefrom;
 	echo "<BR />URL: ".$data_url."的动态分布折线图<BR /><BR /></h3>";
 	
 /*	echo 'SELECT `number`,`time` FROM `webpage` WHERE `url`="'.$data_url.'" AND `comefrom`="'.$comefrom.'" AND `task`="'.$task.'"AND `type`="'.$type.'"AND `keyword`="'.$keyword.'"AND `time`>="'.$startdate.'"AND `time` <= "'.$enddate.' ORDER BY `time` asc';

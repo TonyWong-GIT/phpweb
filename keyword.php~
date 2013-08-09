@@ -15,7 +15,7 @@
 function showChart(data_url, comefrom, task, type, keyword, startdate, enddate)
 {
 	//window.open("chart/chart.php?data_url="+data_url+" &comefrom="+comefrom);
-	window.open("chart/chart.php?data_url="+data_url+" &comefrom="+comefrom+" &task="+task+" &type="+type+" &keyword="+keyword+" &startdate="+startdate+" &enddate="+enddate+"\"",'url_window','height=500,width=800,top=150,left=300,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
+	window.open("chart/Chart.php?data_url="+data_url+" &comefrom="+comefrom+" &task="+task+" &type="+type+" &keyword="+keyword+" &startdate="+startdate+" &enddate="+enddate+"\"",'url_window','height=600,width=1200,top=150,left=300,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
 }
 function whitelistadd(url, comefrom, task, type, keyword, time, number, title, source)
 {
@@ -75,8 +75,6 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
 
   $form_start_date = $_GET['start_date'];
   $form_end_date = $_GET['end_date'];
-  
-  $resKeywordType = mysql_query('SELECT `keyword` FROM `keyword` WHERE `task`="'.$task.'" and `type`="'.$type.'"');
   
 
   echo '<div region="north" border="true" class="menu-north">';
@@ -202,7 +200,7 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
   //echo '$sql_query:'.$sql_query;
   $sql_query = $sql_query.'  limit '.$form_number.','.$form_page;
   //$resKeyword = mysql_query('SELECT * FROM webpage WHERE task='.$task.' and type='.$type.' limit 0,20');
-  //echo $sql_query;
+  echo $sql_query;
 
 
   //echo '<div id="dd" title="Login" closed="true" style="width:300px;height:180px;"></div>';
