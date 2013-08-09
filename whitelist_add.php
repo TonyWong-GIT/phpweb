@@ -18,16 +18,17 @@ $task = trim($_GET['task']);
 $comefrom = trim($_GET['comefrom']);
 $title = trim($_GET['title']);
 $url = trim($_GET['url']);
+$change_url = str_replace('!','&',$url);  //url转向出现问题的解决
 $number = $_GET['number'];
 $time = trim($_GET['time']);
 $source = trim($_GET['source']);
 
-mysql_query('UPDATE `appear` SET `flag_whitelist`=1 where `url`="'.$url.'" and `keyword`=\''.$keyword.'\' and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
-mysql_query('UPDATE `specialurl` SET `flag_whitelist`=1 where `url`="'.$url.'" and `keyword`=\''.$keyword.'\' and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
-mysql_query('UPDATE `disappear` SET `flag_whitelist`=1 where `url`="'.$url.'" and `keyword`=\''.$keyword.'\' and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
-mysql_query('UPDATE `webpage` SET `flag_whitelist`=1 where `url`="'.$url.'" and `keyword`=\''.$keyword.'\' and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
+mysql_query('UPDATE `appear` SET `flag_whitelist`=1 where `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
+mysql_query('UPDATE `specialurl` SET `flag_whitelist`=1 where  `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
+mysql_query('UPDATE `disappear` SET `flag_whitelist`=1 where `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
+mysql_query('UPDATE `webpage` SET `flag_whitelist`=1 where `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
 //echo 'UPDATE `webpage` SET `flag_whitelist`=1 where `url`="'.$url.'" and `keyword`="'.$keyword.'" and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"';
-mysql_query('INSERT INTO `whitelist`(`title`, `url`, `keyword`, `time`, `comefrom`, `number`, `type`, `task`) VALUES ("'.$title.'","'.$url.'",\''.$keyword.'\',"'.$time.'","'.$comefrom.'","'.$number.'","'.$type.'","'.$task.'")');
+mysql_query('INSERT INTO `whitelist`(`title`, `url`, `keyword`, `time`, `comefrom`, `number`, `type`, `task`) VALUES ("'.$title.'","'.$change_url.'",\''.$keyword.'\',"'.$time.'","'.$comefrom.'","'.$number.'","'.$type.'","'.$task.'")');
 //echo 'INSERT INTO `whitelist`(`title`, `url`, `keyword`, `time`, `comefrom`, `number`, `type`, `task`) VALUES ("'.$title.'","'.$url.'","'.$keyword.'","'.$time.'","'.$comefrom.'","'.$number.'","'.$type.'","'.$task.'")';
 //echo '添加成功！！';
 //echo '<a href="#" onclick="history.go(-1);return false;">返回</a>';

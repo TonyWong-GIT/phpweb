@@ -23,8 +23,8 @@ day_select_metaetc = row_select_metaetc[0][0]
 
 today = date.today()
 oneday = timedelta(days=1)
-sixthday = (today-oneday*(day_select_metaetc-1)).strftime('%Y%m%d')
 startday = (today-oneday*day_select_metaetc).strftime('%Y%m%d')
+sixthday = (today-oneday).strftime('%Y%m%d')
 today = today.strftime('%Y%m%d')
  
 cur_select_timerecord_type = conn.cursor()
@@ -37,39 +37,43 @@ cur_select_webpage_all = conn.cursor()
 cur_insert_special_all = conn.cursor()
 
 cur_select_timerecord_task = conn.cursor()
-cur_select_timerecord_task.execute('select distinct `task` from `timerecord` where `time` >= "%s" and `time` <= "%s"'%(sixthday,today))
-#print 'select distinct `task` from `timerecord` where `time` >= "%s" and `time` <= "%s"'%(startday,today)
+cur_select_timerecord_task.execute('select distinct `task` from `timerecord` where `time` >= "%s" and `time` <= "%s"'%(startday,sixthday))
+#print 'select distinct `task` from `timerecord` where `time` >= "%s" and `time` <= "%s"'%(startday,sixthday)
 rows_select_timerecord_task = cur_select_timerecord_task.fetchall()
 
 for row_select_timerecord_task in rows_select_timerecord_task:
-    cur_select_timerecord_type.execute('select distinct `type` from `timerecord` where `task`="%s" and `time` >= "%s" and `time` <= "%s"'%(row_select_timerecord_task[0],sixthday,today))
-#    print 'select distinct `type` from `timerecord` where `task`="%s" and `time` >= "%s" and `time` <= "%s"'%(row_select_timerecord_task[0],startday,today)
+    cur_select_timerecord_type.execute('select distinct `type` from `timerecord` where `task`="%s" and `time` >= "%s" and `time` <= "%s"'%(row_select_timerecord_task[0],startday,sixthday))
+#    print 'select distinct `type` from `timerecord` where `task`="%s" and `time` >= "%s" and `time` <= "%s"'%(row_select_timerecord_task[0],startday,sixthday)
     rows_select_timerecord_type = cur_select_timerecord_type.fetchall()
 
     for row_select_timerecord_type in rows_select_timerecord_type:
-        cur_select_timerecord_keyword.execute('select distinct `keyword` from `timerecord` where `task`="%s" and `type`="%s" and `time` >= "%s" and `time` <= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0],sixthday,today))
-#        print 'select distinct `keyword` from `timerecord` where `task`="%s" and `type`="%s" and `time` >= "%s" and `time` <= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0],startday,today)
+        cur_select_timerecord_keyword.execute('select distinct `keyword` from `timerecord` where `task`="%s" and `type`="%s" and `time` >= "%s" and `time` <= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0],startday,sixthday))
+#        print 'select distinct `keyword` from `timerecord` where `task`="%s" and `type`="%s" and `time` >= "%s" and `time` <= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0],startday,sixthday)
         rows_select_timerecord_keyword = cur_select_timerecord_keyword.fetchall()
 
         for row_select_timerecord_keyword in rows_select_timerecord_keyword:
             for source in source_list:
-                cur_select_timerecord_count.execute('select count(*) from `timerecord` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `time` >= "%s" and `time`<= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0],row_select_timerecord_keyword[0],source,sixthday,today))
-#                print 'select count(*) from `timerecord` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" `time` >= "%s" and `time`<= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0],row_select_timerecord_keyword[0],source,startday,today)
+                cur_select_timerecord_count.execute('select count(*) from `timerecord` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `time` >= "%s" and `time`<= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0],row_select_timerecord_keyword[0],source,startday,sixthday))
+#                print 'select count(*) from `timerecord` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `time` >= "%s" and `time`<= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0],row_select_timerecord_keyword[0],source,startday,sixthday)
                 rows_select_timerecord_count = cur_select_timerecord_count.fetchall()
 
                 download_number = rows_select_timerecord_count[0][0]
+#		print download_number//01010101
                 cur_select_webpage_url.execute('select distinct `url` from `webpage` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `time` >= "%s" and `time`<= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0],row_select_timerecord_keyword[0],source,startday,today))
 #                print 'select distinct `url` from `webpage` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `time` >= "%s" and `time`<= "%s" and `flag_whitelist` != 1'%(row_select_timerecord_task[0],row_select_timerecord_type[0],row_select_timerecord_keyword[0],source,startday,today)
                 rows_select_webpage_url = cur_select_webpage_url.fetchall()
 
                 for row_select_webpage_url in rows_select_webpage_url:
                     cur_select_webpage_count.execute('select count(*) from `webpage` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `url`="%s" and `time` >= "%s" and `time`<= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0], row_select_timerecord_keyword[0],source,row_select_webpage_url[0],startday,today))
-		    cur_select_webpage_count_sixday.execute('select count(*) from `webpage` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `url`="%s" and `time` >= "%s" and `time`<= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0], row_select_timerecord_keyword[0],source,row_select_webpage_url[0],sixthday,today))
-#                    print 'select count(*) from `webpage` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `url`="%s" and `time` >= "%s" and `time`<= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0], row_select_timerecord_keyword[0],source,row_select_webpage_url[0],startday,today)
+		    cur_select_webpage_count_sixday.execute('select count(*) from `webpage` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `url`="%s" and `time` >= "%s" and `time`<= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0], row_select_timerecord_keyword[0],source,row_select_webpage_url[0],startday,sixthday))
+#                    print 'select count(*) from `webpage` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `url`="%s" and `time` >= "%s" and `time`<= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0], row_select_timerecord_keyword[0],source,row_select_webpage_url[0],startday,sixthday)
                     rows_select_webpage_count = cur_select_webpage_count.fetchall()
-                    url_count = rows_select_webpage_count[0][0]
+                    url_count = rows_select_webpage_count[0][0]   #31231112
                     rows_select_webpage_count_sixday = cur_select_webpage_count_sixday.fetchall()
-                    url_count_sixday = rows_select_webpage_count[0][0]
+                    url_count_sixday = rows_select_webpage_count_sixday[0][0]
+		    #print rows_select_webpage_count[0]
+		    #if rows_select_webpage_count[0][0] ==0:
+		#	print url_count_sixday
                     if ((download_number>0) and (url_count_sixday == 0) and (url_count > 0)):#有搜索记录且前6天count为0，前7天count大于0
                         cur_select_webpage_all.execute('select * from `webpage` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `url`="%s" and `time` >= "%s" and `time`<= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0], row_select_timerecord_keyword[0],source,row_select_webpage_url[0],startday,today))
 #                        print 'select * from `webpage` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `url`="%s" and `time` >= "%s" and `time`<= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0], row_select_timerecord_keyword[0],source,row_select_webpage_url[0],startday,today)
@@ -83,6 +87,7 @@ cur_select_timerecord_type.close()
 cur_select_timerecord_keyword.close()
 cur_select_timerecord_count.close()
 cur_select_webpage_url.close()
+cur_select_metaetc.close()
 cur_select_webpage_count.close()
 cur_select_webpage_all.close()
 cur_insert_special_all.close()

@@ -14,7 +14,7 @@
 function showChart(data_url, comefrom, task, type, keyword, startdate, enddate)
 {
 	//window.open("chart/chart.php?data_url="+data_url+" &comefrom="+comefrom);
-	window.open("chart/Chart.php?data_url="+data_url+" &comefrom="+comefrom+" &task="+task+" &type="+type+" &keyword="+keyword+" &startdate="+startdate+" &enddate="+enddate+"\"",'url_window','height=600,width=1200,top=150,left=300,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
+	window.open("chart/Chart.php?url="+data_url+"&task="+task+" &type="+type+" &startdate="+startdate+" &enddate="+enddate+"\"",'url_window','height=600,width=1200,top=150,left=300,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
 }
 function whitelistdel(url, comefrom, task, type, keyword, time, number, title, source)
 {
@@ -245,14 +245,15 @@ function whitelistdel(url, comefrom, task, type, keyword, time, number, title, s
   while($tKeyword = mysql_fetch_array($special_url_sql)){
 	$form_number += 1;
 	//echo date('Ymd')-7;
+	$change_url = str_replace('&','!',$tKeyword['url']);  //url转向出现&问题的解决
 	echo '<tr class="tr-background">
 			<td class="table-grid">'.$form_number.'</td>
-			<td class="table-grid"><a href="#" class="easyui-linkbutton" onclick=\'showChart("'.$tKeyword['url'].'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$tKeyword['keyword'].'","'.$chart_date_start.'","'.$chart_date_end.'")\'>'.substr($tKeyword['url'],0,40).'</a></td>
+			<td class="table-grid"><a href="#" class="easyui-linkbutton" onclick=\'showChart("'.$change_url.'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$tKeyword['keyword'].'","'.$chart_date_start.'","'.$chart_date_end.'")\'>'.substr($tKeyword['url'],0,40).'</a></td>
 			<td class="table-grid">'.$tKeyword['title'].'</td>
 			<td class="table-grid">'.$tKeyword['time'].'</td>
 			<td class="table-grid">'.$tKeyword['comefrom'].'</td>
 			<td class="table-grid">'.$tKeyword['number'].'</td>
-			<td class="table-grid"><a href="#" class="easyui-linkbutton" onclick=\'whitelistdel("'.$tKeyword['url'].'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$tKeyword['keyword'].'","'.$tKeyword['time'].'","'.$tKeyword['number'].'","'.$tKeyword['title'].'","keyword.php")\'>删除</a></td>
+			<td class="table-grid"><a href="#" class="easyui-linkbutton" onclick=\'whitelistdel("'.$change_url.'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$tKeyword['keyword'].'","'.$tKeyword['time'].'","'.$tKeyword['number'].'","'.$tKeyword['title'].'","keyword.php")\'>删除</a></td>
 		</tr>';
   }
   	

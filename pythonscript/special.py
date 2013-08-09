@@ -23,7 +23,6 @@ day_select_metaetc = row_select_metaetc[0][0]
 
 today = date.today()
 oneday = timedelta(days=1)
-sixthday = (today-oneday*(day_select_metaetc-1)).strftime('%Y%m%d')
 startday = (today-oneday*day_select_metaetc).strftime('%Y%m%d')
 today = today.strftime('%Y%m%d')
  

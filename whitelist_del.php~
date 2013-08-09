@@ -18,15 +18,16 @@ $task = trim($_GET['task']);
 $comefrom = trim($_GET['comefrom']);
 $title = trim($_GET['title']);
 $url = trim($_GET['url']);
-$number = trim($_GET['number']);
+$change_url = str_replace('!','&',$url);  //url转向出现问题的解决
+$number = $_GET['number'];
 $time = trim($_GET['time']);
 $source = trim($_GET['source']);
 
-mysql_query('UPDATE `appear` SET `flag_whitelist`=0 where `url`="'.$url.'" and `keyword`=\''.$keyword.'\' and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
-mysql_query('UPDATE `specialurl` SET `flag_whitelist`=0 where `url`="'.$url.'" and `keyword`=\''.$keyword.'\' and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
-mysql_query('UPDATE `disappear` SET `flag_whitelist`=0 where `url`="'.$url.'" and `keyword`=\''.$keyword.'\' and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
-mysql_query('UPDATE `webpage` SET `flag_whitelist`=0 where `url`="'.$url.'" and `keyword`=\''.$keyword.'\' and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
-mysql_query('DELETE FROM `whitelist` where `title`="'.$title.'" and `url`="'.$url.'" and `keyword`=\''.$keyword.'\' and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
+mysql_query('UPDATE `appear` SET `flag_whitelist`=0 where `url`="'.$change_url.'" and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
+mysql_query('UPDATE `specialurl` SET `flag_whitelist`=0 where `url`="'.$change_url.'" and  `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
+mysql_query('UPDATE `disappear` SET `flag_whitelist`=0 where `url`="'.$change_url.'" and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
+mysql_query('UPDATE `webpage` SET `flag_whitelist`=0 where `url`="'.$change_url.'" and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
+mysql_query('DELETE FROM `whitelist` where `title`="'.$title.'" and `url`="'.$change_url.'" and `keyword`=\''.$keyword.'\' and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"');
 //echo 'DELETE FROM `whitelist` where `title`="'.$title.'" and `url`="'.$url.'" and `keyword`="'.$keyword.'" and `time`="'.$time.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'" and `type`="'.$type.'" and `task`="'.$task.'"';
 
 //echo '点击<a href="#" onclick="window.location.href=\''.$_SERVER["HTTP_REFERER"].'\';return false;">此处</a>返回';

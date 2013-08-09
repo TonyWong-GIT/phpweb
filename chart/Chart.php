@@ -6,10 +6,10 @@
 	$startdate = '';
 	$enddate = '';
 
-	$data_url=$_GET["data_url"];
+	$data_url=$_GET["url"];
+	$change_url = str_replace('!','&',$data_url);  //url转向出现问题的解决
 	$task=$_GET["task"];
 	$type=$_GET["type"]; 
-	$keyword=$_GET["keyword"];
 	$form_start_date = $_GET["startdate"]; 
 	$form_end_date = $_GET["enddate"];
 	$con=mysql_connect("localhost","root","1234");
@@ -20,9 +20,12 @@
 	
 		mysql_select_db("inet",$con);
 		mysql_query("set names utf8");
-		$sql_baidu_chart = 'SELECT `number`,`time` FROM `webpage` WHERE `url`="'.$data_url.'" AND `comefrom`="百度" AND `task`="'.$task.'"AND `type`="'.$type.'"';
-		$sql_soso_chart = 'SELECT `number`,`time` FROM `webpage` WHERE `url`="'.$data_url.'" AND `comefrom`="搜搜" AND `task`="'.$task.'"AND `type`="'.$type.'"';
-		$sql_google_chart = 'SELECT `number`,`time` FROM `webpage` WHERE `url`="'.$data_url.'" AND `comefrom`="谷歌" AND `task`="'.$task.'"AND `type`="'.$type.'"';
+	$rel_keyword_chart = mysql_query('SELECT `keyword` FROM `keyword` WHERE `task`="'.$task.'" and `type`="'.$type.'"');
+	$row_rel_keyword_chart = mysql_fetch_array($rel_keyword_chart);
+	$keyword=$row_rel_keyword_chart[0];
+		$sql_baidu_chart = 'SELECT `number`,`time` FROM `webpage` WHERE `url`="'.$change_url.'" AND `comefrom`="百度" AND `task`="'.$task.'"AND `type`="'.$type.'"';
+		$sql_soso_chart = 'SELECT `number`,`time` FROM `webpage` WHERE `url`="'.$change_url.'" AND `comefrom`="搜搜" AND `task`="'.$task.'"AND `type`="'.$type.'"';
+		$sql_google_chart = 'SELECT `number`,`time` FROM `webpage` WHERE `url`="'.$change_url.'" AND `comefrom`="谷歌" AND `task`="'.$task.'"AND `type`="'.$type.'"';
 
 		
 	if($_GET["startdate"] != ''){
@@ -139,12 +142,12 @@ echo '
 		        x: -20 //center
 		    },
 		    subtitle: {
-		        text: \'URL:'.$data_url.'\',
+		        text: \'URL:'.$change_url.'\',
 		        x: -20
 		    },
 		    xAxis: {
 		        categories: [';
-	while(strcmp($startdate_xAxis,$enddate)){
+	while($startdate_xAxis <= $enddate){
 		$flag_xAxis += 1;
 		if($flag_xAxis == 1){
 			echo '\''.substr($startdate_xAxis,4).'\'';
@@ -179,7 +182,7 @@ echo '
 	echo '{
                 name: \'谷歌\',
                 data: [';
-	while(strcmp($startdate_google,$enddate)){
+	while($startdate_google <= $enddate){
 		$startdate_google = date('Ymd',strtotime("1 day",strtotime($startdate_google)));
 		foreach ($arrData_google as $arSubData){
 			if($arSubData[1] == substr($startdate_google,4)){
@@ -203,7 +206,7 @@ echo '
                 name: \'百度\',
                 data: [';
 
-	while(strcmp($startdate_baidu,$enddate)){
+	while($startdate_baidu <= $enddate){
 		$startdate_baidu = date('Ymd',strtotime("1 day",strtotime($startdate_baidu)));
 		$flag_baidu += 1;
 		foreach ($arrData_baidu as $arSubData){
@@ -229,7 +232,7 @@ echo '
                 data: [';
 
 
-	while(strcmp($startdate_soso,$enddate)){
+	while($startdate_soso <= $enddate){
 		$startdate_soso = date('Ymd',strtotime("1 day",strtotime($startdate_soso)));
 		$flag_soso += 1;
 		foreach ($arrData_soso as $arSubData){
@@ -278,8 +281,7 @@ echo '
 	echo '<form action="Chart.php" method="get" name="form_keyword">';
 	echo '<input type="hidden" name="task" value='.$task.'>';
 	echo '<input type="hidden" name="type" value='.$type.'>';
-	echo '<input type="hidden" name="keyword" value=\''.$keyword.'\'>';
-	echo '<input type="hidden" name="data_url" value='.$data_url.'>';
+	echo '<input type="hidden" name="url" value='.$data_url.'>';
 	echo '开始日期:<input name="startdate" type="text" class="easyui-datebox" value="'.$form_start_date.'">&nbsp;';
 	echo '终止日期:<input name="enddate" type="text" class="easyui-datebox" value="'.$form_end_date.'">&nbsp;&nbsp;';
 	echo '<input type="submit" value="显示" /></form>';

@@ -6,5 +6,4 @@ while($startdate != $enddate){
 		$startdate = date('Ymd',strtotime("1 day",strtotime($startdate)));
 	//echo $startdate;
 }
-echo echo '\''.$startdate.'\',';
 ?>

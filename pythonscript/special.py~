@@ -47,7 +47,7 @@ for row_select_timerecord_task in rows_select_timerecord_task:
 
     for row_select_timerecord_type in rows_select_timerecord_type:
         cur_select_timerecord_keyword.execute('select distinct `keyword` from `timerecord` where `task`="%s" and `type`="%s" and `time` >= "%s" and `time` <= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0],startday,today))
-	print 'select distinct `keyword` from `timerecord` where `task`="%s" and `type`="%s" and `time` >= "%s" and `time` <= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0],startday,today)
+#	print 'select distinct `keyword` from `timerecord` where `task`="%s" and `type`="%s" and `time` >= "%s" and `time` <= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0],startday,today)
         rows_select_timerecord_keyword = cur_select_timerecord_keyword.fetchall()
 
         for row_select_timerecord_keyword in rows_select_timerecord_keyword:
