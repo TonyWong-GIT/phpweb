@@ -58,7 +58,7 @@ def do_search(table_task, table_type, table_keyword,host,page):
 			host_cmp     = head_url_cmp[0:num]
 			link         = head_url_cmp[num:]
 			if host_cmp == 'www.baidu.com':
-				head_url   table_number += 1;  = url_change(host_cmp,link)
+				head_url     = url_change(host_cmp,link)
 			table_number += 1;
 			title = mine_data[0][1]
 			title = re.sub(r'<[\s\S]*?>','',title)
@@ -69,7 +69,7 @@ def do_search(table_task, table_type, table_keyword,host,page):
 			extra_data = re.sub('<[\s\S]*?>','',extra_data)
 				
 			#print mine_data[0][0],'\n',title,'\n',mine_data[0][2],'\n\n'
-			cur_webpage.execute('insert into `webpage`(`title`,`url`,`keyword`,`time`,`comefrom`,`number`,`type`,`task`,`flag_whitelist`) values("%s","%s",\'%s\',"%s","%s",%d,"%s","%s",%d)'%(str(title), str(mine_data[0][0]), str(table_keyword), str(table_time), str(host), table_number, str(table_type), str(table_task),0 ))
+			cur_webpage.execute('insert into `webpage`(`title`,`url`,`keyword`,`time`,`comefrom`,`number`,`type`,`task`,`flag_whitelist`) values("%s","%s",\'%s\',"%s","%s",%d,"%s","%s",%d)'%(str(title), str(head_url), str(table_keyword), str(table_time), str(host), table_number, str(table_type), str(table_task),0 ))
 			print mine_data[0][0],'\n',title,'\n\n\n'
 			del mine_data[0]
 		if pagenumber >= 10* page:
