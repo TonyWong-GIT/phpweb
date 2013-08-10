@@ -254,7 +254,7 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
 			<td class="table-grid">'.$tKeyword['time'].'</td>
 			<td class="table-grid">'.$tKeyword['comefrom'].'</td>
 			<td class="table-grid">'.$tKeyword['number'].'</td>
-			<td class="table-grid"><a href="#" class="easyui-linkbutton" onclick=\'whitelistadd("'.$tKeyword['url'].'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$tKeyword['keyword'].'","'.$tKeyword['time'].'","'.$tKeyword['number'].'","'.$tKeyword['title'].'","special.php")\'>加入</a></td>
+			<td class="table-grid"><a href="#" class="easyui-linkbutton" onclick=\'whitelistadd("'.$change_url.'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$tKeyword['keyword'].'","'.$tKeyword['time'].'","'.$tKeyword['number'].'","'.$tKeyword['title'].'","special.php")\'>加入</a></td>
 		</tr>';
   }
   	

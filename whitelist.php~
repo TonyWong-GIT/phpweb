@@ -253,7 +253,7 @@ function whitelistdel(url, comefrom, task, type, keyword, time, number, title, s
 			<td class="table-grid">'.$tKeyword['time'].'</td>
 			<td class="table-grid">'.$tKeyword['comefrom'].'</td>
 			<td class="table-grid">'.$tKeyword['number'].'</td>
-			<td class="table-grid"><a href="#" class="easyui-linkbutton" onclick=\'whitelistdel("'.$tKeyword['url'].'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$tKeyword['keyword'].'","'.$tKeyword['time'].'","'.$tKeyword['number'].'","'.$tKeyword['title'].'","keyword.php")\'>删除</a></td>
+			<td class="table-grid"><a href="#" class="easyui-linkbutton" onclick=\'whitelistdel("'.$change_url.'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$tKeyword['keyword'].'","'.$tKeyword['time'].'","'.$tKeyword['number'].'","'.$tKeyword['title'].'","keyword.php")\'>删除</a></td>
 		</tr>';
   }
   	

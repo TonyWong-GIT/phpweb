@@ -91,7 +91,7 @@ a:active {
 	left: 80px;
 	top:60px;
 	width: 460px;
-	height: 500px;
+	height: 480px;
 }
 
 .setup-window-keyword-content-setup {
@@ -206,4 +206,8 @@ a:active {
 }
 .cs-home-remark {
 	padding: 10px;
+}
+.chart-div {
+	position: absolute;
+	left: 300px;
 }

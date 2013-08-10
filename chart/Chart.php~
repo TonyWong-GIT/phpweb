@@ -183,10 +183,9 @@ echo '
                 name: \'谷歌\',
                 data: [';
 	while($startdate_google <= $enddate){
-		$startdate_google = date('Ymd',strtotime("1 day",strtotime($startdate_google)));
+		$flag_google += 1;
 		foreach ($arrData_google as $arSubData){
 			if($arSubData[1] == substr($startdate_google,4)){
-				$flag_google += 1;
 				if($flag_google == 1){
 					echo $arSubData[2];
 				}else{
@@ -201,29 +200,34 @@ echo '
 				}
 			}
 		}
+		$startdate_google = date('Ymd',strtotime("1 day",strtotime($startdate_google)));
 	}
   	echo '  ] }, {
                 name: \'百度\',
                 data: [';
 
 	while($startdate_baidu <= $enddate){
-		$startdate_baidu = date('Ymd',strtotime("1 day",strtotime($startdate_baidu)));
-		$flag_baidu += 1;
 		foreach ($arrData_baidu as $arSubData){
+			$flag_baidu += 1;
 			if($arSubData[1] == substr($startdate_baidu,4)){
 				if($flag_baidu == 1){
 					echo $arSubData[2];
+					break;
 				}else{
 					echo ','.$arSubData[2];
+					break;
 				}
 			}else{
 				if($flag_baidu == 1){
 					echo '0';
+					break;
 				}else{
 					echo ',0';
+					break;
 				}
 			}
 		}
+		$startdate_baidu = date('Ymd',strtotime("1 day",strtotime($startdate_baidu)));
 	}
 
 	echo ']
@@ -233,7 +237,6 @@ echo '
 
 
 	while($startdate_soso <= $enddate){
-		$startdate_soso = date('Ymd',strtotime("1 day",strtotime($startdate_soso)));
 		$flag_soso += 1;
 		foreach ($arrData_soso as $arSubData){
 			if($arSubData[1] == substr($startdate_soso,4)){
@@ -254,6 +257,7 @@ echo '
 				}
 			}
 		}
+		$startdate_soso = date('Ymd',strtotime("1 day",strtotime($startdate_soso)));
 	}
 
 
@@ -278,6 +282,7 @@ echo '
 <script src="./highchart/exporting.js"></script>
 
 <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>';
+echo '<div class="chart-div">';
 	echo '<form action="Chart.php" method="get" name="form_keyword">';
 	echo '<input type="hidden" name="task" value='.$task.'>';
 	echo '<input type="hidden" name="type" value='.$type.'>';
@@ -285,7 +290,7 @@ echo '
 	echo '开始日期:<input name="startdate" type="text" class="easyui-datebox" value="'.$form_start_date.'">&nbsp;';
 	echo '终止日期:<input name="enddate" type="text" class="easyui-datebox" value="'.$form_end_date.'">&nbsp;&nbsp;';
 	echo '<input type="submit" value="显示" /></form>';
-echo '
+echo '	</div>
 	</body>
 </html>
 ';
