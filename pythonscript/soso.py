@@ -10,7 +10,7 @@ import urllib2,httplib
 import MySQLdb as mdb
 
 reload(sys)
-sys.setdefaultencoding( "utf-8" )
+sys.setdefaultencoding( "utf8" )
 
 pagenumber = 0
 nextpage = ''
@@ -42,7 +42,7 @@ def do_search(table_task, table_type, table_keyword,host,page):
 		data = get_page_data(url)
 
 		
-		data = data.decode('gbk','ignore').encode('utf-8')
+		data = data.decode('gbk','ignore').encode('utf8')
 		
 
 		mine_data = re_data.findall(data)

@@ -42,7 +42,7 @@ def do_search(table_task, table_type, table_keyword,host,page):
 		data = get_page_data(url)
 
 		
-		data = data.decode('gbk','ignore').encode('utf-8')
+		data = data.decode('gbk','ignore').encode('utf8')
 		
 
 		mine_data = re_data.findall(data)
@@ -67,8 +67,6 @@ def do_search(table_task, table_type, table_keyword,host,page):
 			print mine_data[0][0],'\n',title,'\n\n\n'
 			del mine_data[0]
 		
-		if pagenumber >= page:
-		 	return
 		if (pagenumber >=page) :
 			return
 		pagenumber = pagenumber + 1

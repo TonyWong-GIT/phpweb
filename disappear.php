@@ -246,6 +246,7 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
 	$form_number += 1;
 	//echo date('Ymd')-7;date("Ymd",strtotime("-7 day"))
 	$change_url = str_replace('&','!',$tKeyword['url']);  //url转向出现&问题的解决
+	$change_url = str_replace('+','^',$change_url);  //url转向出现+问题的解决
 	echo '<tr>
 			<td class="table-grid">'.$form_number.'</td>
 			<td class="table-grid"><a href="#" class="easyui-linkbutton" onclick=\'showChart_special("'.$change_url.'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$tKeyword['keyword'].'","'.$chart_date_start.'","'.$chart_date_end.'","disappear")\'>'.substr($tKeyword['url'],0,40).'</a></td>

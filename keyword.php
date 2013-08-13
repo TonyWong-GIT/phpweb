@@ -254,10 +254,12 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
 		else{
 			echo '<tr>';
 		}
-		$change_url = str_replace('&','!',$tKeyword['url']);  //url转向出现问题的解决
+		//$test = str_replace('&','!','http://csal2007.studentenweb.org/viewthread.php?extra=page%3d1&tid=38840');
+		$change_url = str_replace('&','!',$tKeyword['url']);  //url转向出现&问题的解决
+		$change_url = str_replace('+','^',$change_url);  //url转向出现+问题的解决
 		echo '
 					<td class="table-grid">'.$form_number.'</td>
-					<td class="table-grid"><a href="#" class="easyui-linkbutton" onclick=\'showChart("'.$change_url.'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$tKeyword['keyword'].'","'.$chart_date_start.'","'.$chart_date_end.'")\'>'.substr($tKeyword['url'],0,40).'</a></td>
+					<td class="table-grid"><a href="#" class="easyui-linkbutton" onclick=\'showChart("'.$change_url.'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$tKeyword['keyword'].'","'.$chart_date_start.'","'.$chart_date_end.'")\'>'.substr($tKeyword['url'],0,36).'</a></td>
 					<td class="table-grid">'.$tKeyword['title'].'</td>
 					<td class="table-grid">'.$tKeyword['time'].'</td>
 					<td class="table-grid">'.$tKeyword['comefrom'].'</td>

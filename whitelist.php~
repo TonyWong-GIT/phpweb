@@ -14,7 +14,7 @@
 function showChart(data_url, comefrom, task, type, keyword, startdate, enddate)
 {
 	//window.open("chart/chart.php?data_url="+data_url+" &comefrom="+comefrom);
-	window.open("chart/Chart.php?url="+data_url+"&task="+task+" &type="+type+" &startdate="+startdate+" &enddate="+enddate+"\"",'url_window','height=600,width=1200,top=150,left=300,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
+	window.open("chart/Chart.php?url="+data_url+"&task="+task+" &type="+type+" &startdate="+startdate+" &enddate="+enddate+"\"",'url_window','height=500,width=1100,top=150,left=150,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
 }
 function whitelistdel(url, comefrom, task, type, keyword, time, number, title, source)
 {

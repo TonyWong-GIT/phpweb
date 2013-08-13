@@ -143,5 +143,5 @@ def url_change(host,link):
 	
 if __name__ == '__main__':
   fw = file('mul','w')
-  search('你好',fw,['google','biying','baidu','soso'],10)
+  search('你好',fw,['soso','google','biying','baidu'],10)
   fw.close()

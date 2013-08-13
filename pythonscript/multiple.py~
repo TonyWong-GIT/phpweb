@@ -16,10 +16,13 @@ re_data = re.compile(r'<h3 class="r"><a href="[\s\S]*?" target="_blank">([\s\S]*
 
 
 
-def search(keyword,engines = '谷歌',page = 10):
+def search(keyword,fw,engines = ['google','biying','baidu','soso'],page = 10):
 	print engines
-	set_params(keyword,engines[0])
-	do_search(keyword,engines[0],fw,page)
+	while len(engines)!=0:
+		set_params(keyword,engines[0])
+		do_search(keyword,engines[0],fw,page)
+		print engines[0]
+		del engines[0]
 
 def set_params(keyword,host):
 	global url_cmp,nextpage,pagenumber,re_data
@@ -80,6 +83,7 @@ def do_search(keyword,host,fw,page):
 
 		while (mine_data):
 			head_url = mine_data[0][0]
+			print head_url
 			if host == 'google':
 				head_url = re.sub('<.*?>','',mine_data[0][0])
 
@@ -140,5 +144,5 @@ def url_change(host,link):
 	
 if __name__ == '__main__':
   fw = file('mul','w')
-  search('你好',fw,['google','biying','baidu','soso'],10)
+  search('你好',fw,['soso','google','biying','baidu'],10)
   fw.close()

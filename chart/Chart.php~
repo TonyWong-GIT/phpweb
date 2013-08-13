@@ -8,6 +8,7 @@
 
 	$data_url=$_GET["url"];
 	$change_url = str_replace('!','&',$data_url);  //url转向出现问题的解决
+	$change_url = str_replace('^','+',$change_url);  //url转向出现+问题的解决
 	$task=$_GET["task"];
 	$type=$_GET["type"]; 
 	$form_start_date = $_GET["startdate"]; 
@@ -102,21 +103,21 @@
 	$i_baidu=0;
 	while($t_baidu = mysql_fetch_array($result_baidu_url))
 	{	
-		$arrData_baidu[$i_baidu][1]=substr($t_baidu['time'],4);
+		$arrData_baidu[$i_baidu][1]=substr($t_baidu['time'],4,4);
 		$arrData_baidu[$i_baidu][2]=$t_baidu['number'];
 		$i_baidu=$i_baidu+1;	
 	}
 	$i_soso=0;
 	while($t_soso = mysql_fetch_array($result_soso_url))
 	{	
-		$arrData_soso[$i_soso][1]=substr($t_soso['time'],4);
+		$arrData_soso[$i_soso][1]=substr($t_soso['time'],4,4);
 		$arrData_soso[$i_soso][2]=$t_soso['number'];
 		$i_soso=$i_soso+1;	
 	}
 	$i_google=0;
 	while($t_google = mysql_fetch_array($result_google_url))
 	{	
-		$arrData_google[$i_baidu][1]=substr($t_google['time'],4);
+		$arrData_google[$i_baidu][1]=substr($t_google['time'],4,4);
 		$arrData_google[$i_baidu][2]=$t_google['number'];
 		$i_google=$i_google+1;	
 	}
@@ -150,9 +151,9 @@ echo '
 	while($startdate_xAxis <= $enddate){
 		$flag_xAxis += 1;
 		if($flag_xAxis == 1){
-			echo '\''.substr($startdate_xAxis,4).'\'';
+			echo '\''.substr($startdate_xAxis,4,4).'\'';
 		}else{
-			echo ',\''.substr($startdate_xAxis,4).'\'';
+			echo ',\''.substr($startdate_xAxis,4,4).'\'';
 		}
 		$startdate_xAxis = date('Ymd',strtotime("1 day",strtotime($startdate_xAxis)));
 	}
@@ -182,34 +183,40 @@ echo '
 	echo '{
                 name: \'谷歌\',
                 data: [';
-	while($startdate_google <= $enddate){
-		$flag_google += 1;
-		foreach ($arrData_google as $arSubData){
-			if($arSubData[1] == substr($startdate_google,4)){
-				if($flag_google == 1){
+	while($startdate_baidu <= $enddate){
+		$flag_baidu += 1;
+		$flag_t_baidu = 0;
+		foreach ($arrData_baidu as $arSubData){
+			if($arSubData[1] == substr($startdate_baidu,4,4)){
+				$flag_t_baidu = 1;
+				if($flag_baidu == 1){
 					echo $arSubData[2];
+					break;
 				}else{
 					echo ','.$arSubData[2];
-				}
-			}else{
-				$flag_google += 1;
-				if($flag_google == 1){
-					echo '0';
-				}else{
-					echo ',0';
+					break;
 				}
 			}
 		}
-		$startdate_google = date('Ymd',strtotime("1 day",strtotime($startdate_google)));
+		if($flag_t_baidu == 0){
+			if($flag_baidu == 1){
+				echo '0';
+			}else{
+				echo ',0';
+			}
+		}
+		$startdate_baidu = date('Ymd',strtotime("1 day",strtotime($startdate_baidu)));
 	}
   	echo '  ] }, {
                 name: \'百度\',
                 data: [';
 
 	while($startdate_baidu <= $enddate){
+		$flag_baidu += 1;
+		$flag_t_baidu = 0;
 		foreach ($arrData_baidu as $arSubData){
-			$flag_baidu += 1;
-			if($arSubData[1] == substr($startdate_baidu,4)){
+			if($arSubData[1] == substr($startdate_baidu,4,4)){
+				$flag_t_baidu = 1;
 				if($flag_baidu == 1){
 					echo $arSubData[2];
 					break;
@@ -217,14 +224,13 @@ echo '
 					echo ','.$arSubData[2];
 					break;
 				}
+			}
+		}
+		if($flag_t_baidu == 0){
+			if($flag_baidu == 1){
+				echo '0';
 			}else{
-				if($flag_baidu == 1){
-					echo '0';
-					break;
-				}else{
-					echo ',0';
-					break;
-				}
+				echo ',0';
 			}
 		}
 		$startdate_baidu = date('Ymd',strtotime("1 day",strtotime($startdate_baidu)));
@@ -238,8 +244,10 @@ echo '
 
 	while($startdate_soso <= $enddate){
 		$flag_soso += 1;
+		$flag_t_soso = 0;
 		foreach ($arrData_soso as $arSubData){
-			if($arSubData[1] == substr($startdate_soso,4)){
+			if($arSubData[1] == substr($startdate_soso,4,4)){
+				$flag_t_soso = 1;
 				if($flag_soso == 1){
 					echo $arSubData[2];
 					break;
@@ -247,19 +255,17 @@ echo '
 					echo ','.$arSubData[2];
 					break;
 				}
+			}
+		}
+		if($flag_t_soso == 0){
+			if($flag_soso == 1){
+				echo '0';
 			}else{
-				if($flag_soso == 1){
-					echo '0';
-					break;
-				}else{
-					echo ',0';
-					break;
-				}
+				echo ',0';
 			}
 		}
 		$startdate_soso = date('Ymd',strtotime("1 day",strtotime($startdate_soso)));
 	}
-
 
 	echo ']
             }';

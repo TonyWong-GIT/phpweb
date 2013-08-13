@@ -14,7 +14,7 @@
 function showChart_special(data_url, comefrom, task, type, keyword, startdate, enddate, sourcefile)
 {
 	//window.open("chart/chart.php?data_url="+data_url+" &comefrom="+comefrom);
-	window.open("chart/Chart.php?url="+data_url+"&task="+task+" &type="+type+"&startdate="+startdate+" &enddate="+enddate+"\" &sourcefile="+sourcefile,'url_window','height=600,width=1200,top=150,left=300,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
+	window.open("chart/Chart.php?url="+data_url+"&task="+task+" &type="+type+"&startdate="+startdate+" &enddate="+enddate+"\" &sourcefile="+sourcefile,'url_window','height=500,width=1100,top=150,left=150,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
 }
 function whitelistadd(url, comefrom, task, type, keyword, time, number, title, source)
 {
@@ -247,6 +247,7 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
 		echo '<tr>';
 	}
 	$change_url = str_replace('&','!',$tKeyword['url']);  //url转向出现&问题的解决
+	$change_url = str_replace('+','^',$tKeyword['url']);  //url转向出现+问题的解决
 	echo '
 			<td class="table-grid">'.$form_number.'</td>
 			<td class="table-grid"><a href="#" class="easyui-linkbutton" onclick=\'showChart_special("'.$change_url.'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$tKeyword['keyword'].'","'.$chart_date_start.'","'.$chart_date_end.'","specialurl")\'>'.substr($tKeyword['url'],0,40).'</a></td>
