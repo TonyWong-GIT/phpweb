@@ -27,6 +27,7 @@ startday = (today-oneday*day_select_metaetc).strftime('%Y%m%d')
 sixthday = (today-oneday).strftime('%Y%m%d')
 today = today.strftime('%Y%m%d')
  
+cur_select_webpage_count_seven = conn.cursor()
 cur_select_timerecord_type = conn.cursor()
 cur_select_timerecord_keyword = conn.cursor()
 cur_select_timerecord_count = conn.cursor()
@@ -62,11 +63,14 @@ for row_select_timerecord_task in rows_select_timerecord_task:
                 rows_select_webpage_url = cur_select_webpage_url.fetchall()
 
                 for row_select_webpage_url in rows_select_webpage_url:
-                    cur_select_webpage_count.execute('select count(*) from `webpage` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `url`="%s" and `time` >= "%s" and `time`<= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0], row_select_timerecord_keyword[0],source,row_select_webpage_url[0],startday,today))
+                    cur_select_webpage_count.execute('select count(*) from `webpage` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `url`="%s" and `time` >= "%s" and `time`<= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0], row_select_timerecord_keyword[0],source,row_select_webpage_url[0],startday,sixthday))
+		    cur_select_webpage_count_seven.execute('select count(*) from `webpage` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `url`="%s" and `time` >= "%s" and `time`<= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0], row_select_timerecord_keyword[0],source,row_select_webpage_url[0],startday,today))
 #                    print 'select count(*) from `webpage` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `url`="%s" and `time` >= "%s" and `time`<= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0], row_select_timerecord_keyword[0],source,row_select_webpage_url[0],startday,today)
                     rows_select_webpage_count = cur_select_webpage_count.fetchall()
+		    rows_select_webpage_count_seven = cur_select_webpage_count_seven.fetchall()
                     url_count = rows_select_webpage_count[0][0]
-                    if ((download_number >0) and (url_count == download_number)):  #前6天与前7天相等，则第7天为0
+		    url_count_seven = rows_select_webpage_count_seven[0][0]
+                    if ((download_number >0) and (url_count > 0) and (url_count == url_count_seven)):  #前6天与前7天相等，则第7天为0
                         cur_select_webpage_all.execute('select * from `webpage` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `url`="%s" and `time` >= "%s" and `time`<= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0], row_select_timerecord_keyword[0],source,row_select_webpage_url[0],startday,today))
 #                        print 'select * from `webpage` where `task`="%s" and `type`="%s" and `keyword`="%s" and `comefrom`="%s" and `url`="%s" and `time` >= "%s" and `time`<= "%s"'%(row_select_timerecord_task[0],row_select_timerecord_type[0], row_select_timerecord_keyword[0],source,row_select_webpage_url[0],startday,today)
                         rows_select_webpage_all = cur_select_webpage_all.fetchall()
@@ -81,6 +85,7 @@ cur_select_timerecord_count.close()
 cur_select_webpage_url.close()
 cur_select_metaetc.close()
 cur_select_webpage_count.close()
+cur_select_webpage_count_seven.close()
 cur_select_webpage_all.close()
 cur_insert_special_all.close()
 cur_del_special.close()
