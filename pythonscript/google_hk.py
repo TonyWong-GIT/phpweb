@@ -50,6 +50,7 @@ def do_search(table_task, table_type, table_keyword,host,page):
 		data = data.decode('big5','ignore').encode('utf-8')
 
 		mine_data = re_data.findall(data)
+		print data
 		print len(mine_data)
 		if len(mine_data)==0:
 			break
@@ -60,13 +61,13 @@ def do_search(table_task, table_type, table_keyword,host,page):
 			cite_words  = re.sub('<[\s\S]*?>','',mine_data[0][1])
 			text_words  = re.sub('<[\s\S]*?>','',mine_data[0][2])
 			table_number += 1
-			time.sleep(1)
 			cur_webpage.execute('insert into `webpage`(`title`,`url`,`keyword`,`time`,`comefrom`,`number`,`type`,`task`,`flag_whitelist`) values("%s","%s",\'%s\',"%s","%s",%d,"%s","%s",%d)'%(str(title_words), str(cite_words), str(table_keyword), str(table_time), str(host), table_number, str(table_type), str(table_task), 0 ))
 			print mine_data[0][0],'\n',title,'\n\n\n'
 			del mine_data[0]
 		if pagenumber >= 100:
 			return
 		pagenumber = pagenumber + 10
+		time.sleep(5)
 		continue
 
 		while (mine_data):
@@ -83,7 +84,7 @@ def do_search(table_task, table_type, table_keyword,host,page):
 			extra_data = re.sub('<[\s\S]*?>','',extra_data)
 				
 			#print mine_data[0][0],'\n',title,'\n',mine_data[0][2],'\n\n'
-			fw.write(mine_data[0][0]+ '\n'+head_url+'\n'+title+'\n'+extra_data+'\n\n\n')
+			#fw.write(mine_data[0][0]+ '\n'+head_url+'\n'+title+'\n'+extra_data+'\n\n\n')
 			del mine_data[0]
 		
 		if pagenumber >= 10* page:

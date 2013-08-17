@@ -6,11 +6,15 @@
 	$startdate = '';
 	$enddate = '';
 
-	$data_url=$_GET["url"];
-	$change_url = str_replace('!','&',$data_url);  //url转向出现问题的解决
-	$change_url = str_replace('^','+',$change_url);  //url转向出现+问题的解决
+	//$data_url=$_GET["url"];
+	$date=$_GET["date"];
+	//print $_GET["url"];
+	//$change_url = str_replace('!','&',$data_url);  //url转向出现问题的解决
+	//$change_url = str_replace('^','+',$change_url);  //url转向出现+问题的解决
 	$task=$_GET["task"];
 	$type=$_GET["type"]; 
+	$number=$_GET["number"];
+	$comefrom=$_GET["comefrom"];
 	$form_start_date = $_GET["startdate"]; 
 	$form_end_date = $_GET["enddate"];
 	$con=mysql_connect("localhost","root","1234");
@@ -21,6 +25,11 @@
 	
 		mysql_select_db("inet",$con);
 		mysql_query("set names utf8");
+	$url_res = mysql_query('SELECT `url` FROM `webpage` WHERE `task`="'.$task.'" and `type`="'.$type.'" and `time`="'.$date.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'"');
+	$url_res_row = mysql_fetch_array($url_res);
+	$change_url = $url_res_row[0];
+	//print 'SELECT `url` FROM `webpage` WHERE `task`="'.$task.'" and `type`="'.$type.'" and `time`="'.$date.'" and `comefrom`="'.$comefrom.'" and `number`="'.$number.'"';
+
 	$rel_keyword_chart = mysql_query('SELECT `keyword` FROM `keyword` WHERE `task`="'.$task.'" and `type`="'.$type.'"');
 	$row_rel_keyword_chart = mysql_fetch_array($rel_keyword_chart);
 	$keyword=$row_rel_keyword_chart[0];
@@ -97,6 +106,7 @@
 	$sql_baidu_chart = $sql_baidu_chart.' ORDER BY `time` asc';
 	$sql_soso_chart = $sql_soso_chart.' ORDER BY `time` asc';
 	$sql_google_chart = $sql_google_chart.' ORDER BY `time` asc';
+	//print $sql_baidu_chart;
 	$result_baidu_url = mysql_query($sql_baidu_chart);
 	$result_soso_url = mysql_query($sql_soso_chart);
 	$result_google_url = mysql_query($sql_google_chart);

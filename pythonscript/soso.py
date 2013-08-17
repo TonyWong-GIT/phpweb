@@ -70,7 +70,7 @@ def do_search(table_task, table_type, table_keyword,host,page):
 		if (pagenumber >=page) :
 			return
 		pagenumber = pagenumber + 1
-
+		time.sleep(5)
 		
 def get_page_data(page):
 	page_cmp = urllib2.Request(page)

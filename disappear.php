@@ -11,10 +11,10 @@
 <script type="text/javascript"  language="JavaScript" src="js/jquery.easyui.min.js"></script>
 <script type="text/javascript"  language="JavaScript" src="js/page.js"></script>
 <script>
-function showChart_special(data_url, comefrom, task, type, keyword, startdate, enddate, sourcefile)
+function showChart(number, comefrom, task, type, startdate, enddate, date)
 {
 	//window.open("chart/chart.php?data_url="+data_url+" &comefrom="+comefrom);
-	window.open("chart/Chart.php?url="+data_url+"&task="+task+" &type="+type+" &startdate="+startdate+" &enddate="+enddate+"\" &sourcefile="+sourcefile,'url_window','height=500,width=1100,top=150,left=150,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
+	window.open("chart/Chart.php?date="+date+" &comefrom="+comefrom+" &number="+number+"&task="+task+" &type="+type+" &startdate="+startdate+" &enddate="+enddate,'url_window','height=500,width=1100,top=150,left=150,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
 }
 function whitelistadd(url, comefrom, task, type, keyword, time, number, title, source)
 {
@@ -249,7 +249,7 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
 	$change_url = str_replace('+','^',$change_url);  //url转向出现+问题的解决
 	echo '<tr>
 			<td class="table-grid">'.$form_number.'</td>
-			<td class="table-grid"><a href="#" class="easyui-linkbutton" onclick=\'showChart_special("'.$change_url.'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$tKeyword['keyword'].'","'.$chart_date_start.'","'.$chart_date_end.'","disappear")\'>'.substr($tKeyword['url'],0,40).'</a></td>
+			<td class="table-grid"><a href="#" class="easyui-linkbutton" onclick=\'showChart("'.$tKeyword['number'].'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$chart_date_start.'","'.$chart_date_end.'","'.$tKeyword['time'].'")\'>'.substr($tKeyword['url'],0,40).'</a></td>
 			<td class="table-grid">'.$tKeyword['title'].'</td>
 			<td class="table-grid">'.$tKeyword['time'].'</td>
 			<td class="table-grid">'.$tKeyword['comefrom'].'</td>
