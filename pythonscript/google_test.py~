@@ -30,7 +30,7 @@ def set_params(table_keyword,host):
 	global url_cmp,nextpage,pagenumber,re_data
 	pagenumber = 0
 	nextpage = '&start='
-	keyword_rel = table_keyword.replace(' ','%20')
+	keyword_rel = table_keyword.replace(' ','+')
 	url_cmp = 'http://www.google.com.hk/search?q='+ keyword_rel + nextpage 
 	re_data = re.compile(r'<h3 class="r"><a href="[\s\S]*?" target="_blank">([\s\S]*?)<cite.*?>([\s\S]*?)</cite>.*?<span.*?>([\s\S]*?)</li>',re.S)
 	
@@ -50,7 +50,7 @@ def do_search(table_task, table_type, table_keyword,host,page):
 		data = data.decode('big5','ignore')
 
 		mine_data = re_data.findall(data)
-		print data  //exist
+		print data  #exist
 		print '----'+str(len(mine_data))
 		if len(mine_data)==0:
 			break
@@ -68,6 +68,7 @@ def do_search(table_task, table_type, table_keyword,host,page):
 		if pagenumber >= 100:
 			return
 		pagenumber = pagenumber + 10
+		time.sleep(5)
 		continue
 
 		while (mine_data):
