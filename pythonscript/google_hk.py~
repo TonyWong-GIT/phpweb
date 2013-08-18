@@ -69,27 +69,7 @@ def do_search(table_task, table_type, table_keyword,host,page):
 		time.sleep(5)
 		continue
 
-		while (mine_data):
-			head_url = mine_data[0][0]
-			if host == 'google':
-				head_url = re.sub('<.*?>','',mine_data[0][0])
-			table_number += 1;
-			title = mine_data[0][1]
-			title = re.sub(r'<[\s\S]*?>','',title)
-			
-			extra_data = mine_data[0][2]
-			extra_data = re.sub('<style>[\s\S]*?</style>','',extra_data)
-			extra_data = re.sub('<script>[\s\S]*?</script>','',extra_data)
-			extra_data = re.sub('<[\s\S]*?>','',extra_data)
-				
-			#print mine_data[0][0],'\n',title,'\n',mine_data[0][2],'\n\n'
-			#fw.write(mine_data[0][0]+ '\n'+head_url+'\n'+title+'\n'+extra_data+'\n\n\n')
-			del mine_data[0]
 		
-		if pagenumber >= 10* page:
-		 	return
-
-		pagenumber = pagenumber + 10
 		
 def get_page_data(page):
 	page_cmp = urllib2.Request(page)

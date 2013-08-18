@@ -61,7 +61,7 @@ def do_search(table_task, table_type, table_keyword,host,page):
 			text_words  = re.sub('<[\s\S]*?>','',mine_data[0][2])
 			table_number += 1
 			#cur_webpage.execute('insert into `webpage`(`title`,`url`,`keyword`,`time`,`comefrom`,`number`,`type`,`task`,`flag_whitelist`) values("%s","%s",\'%s\',"%s","%s",%d,"%s","%s",%d)'%(str(title_words), str(cite_words), str(table_keyword), str(table_time), str(host), table_number, str(table_type), str(table_task), 0 ))
-			print mine_data[0][0],'\n',title,'\n\n\n'
+			print mine_data[0][0],'\n',title_words,'\n\n\n'
 			del mine_data[0]
 		if pagenumber >= page*10:
 			return

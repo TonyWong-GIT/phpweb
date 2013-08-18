@@ -38,7 +38,7 @@ def set_params(table_keyword,host):
 def do_search(table_task, table_type, table_keyword,host,page):
 	table_time = time.strftime('%Y%m%d')
 	pagenumber = 0
-	#cur_timerecord.execute("insert into `timerecord`(`keyword`,`time`,`comefrom`,`type`,`task`) values('%s','%s','%s','%s','%s')"%(str(table_keyword), str(table_time), str(host), str(table_type), str(table_task)))
+	cur_timerecord.execute("insert into `timerecord`(`keyword`,`time`,`comefrom`,`type`,`task`) values('%s','%s','%s','%s','%s')"%(str(table_keyword), str(table_time), str(host), str(table_type), str(table_task)))
 	table_number = 0
 	while True:
 		url = url_cmp + str(pagenumber)
@@ -60,7 +60,7 @@ def do_search(table_task, table_type, table_keyword,host,page):
 			cite_words  = re.sub('<[\s\S]*?>','',mine_data[0][1])
 			text_words  = re.sub('<[\s\S]*?>','',mine_data[0][2])
 			table_number += 1
-			#cur_webpage.execute('insert into `webpage`(`title`,`url`,`keyword`,`time`,`comefrom`,`number`,`type`,`task`,`flag_whitelist`) values("%s","%s",\'%s\',"%s","%s",%d,"%s","%s",%d)'%(str(title_words), str(cite_words), str(table_keyword), str(table_time), str(host), table_number, str(table_type), str(table_task), 0 ))
+			cur_webpage.execute('insert into `webpage`(`title`,`url`,`keyword`,`time`,`comefrom`,`number`,`type`,`task`,`flag_whitelist`) values("%s","%s",\'%s\',"%s","%s",%d,"%s","%s",%d)'%(str(title_words), str(cite_words), str(table_keyword), str(table_time), str(host), table_number, str(table_type), str(table_task), 0 ))
 			print mine_data[0][0],'\n',title,'\n\n\n'
 			del mine_data[0]
 		if pagenumber >= page*10:

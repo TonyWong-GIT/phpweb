@@ -176,6 +176,7 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
 	$sql_count = $sql_count.' and `comefrom` in ('.$comefrom.')';
   }else if($_GET['source'] != ''){
 	$form_source = $_GET['source'];
+	$comefrom = $form_source;
 	$sql_query = $sql_query.' and `comefrom` in ('.$form_source.')';
 	$sql_count = $sql_count.' and `comefrom` in ('.$form_source.')';
   }else{
@@ -229,8 +230,8 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
   echo '<table class="table-center">';
   echo '<tr>
 		<th width="30px" class="table-center-th">编号</th>
-	        <th width="300px" class="table-center-th">URL</th>
 		<th width="370px" class="table-center-th">标题</th>
+		<th width="300px" class="table-center-th">网页地址</th>
 	        <th width="100px" class="table-center-th">日期</th>
 		<th width="100px" class="table-center-th">来源</th>
 		<th width="100px" class="table-center-th">权重</th>
@@ -242,16 +243,16 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
   while($tKeyword = mysql_fetch_array($special_url_sql)){
 	$form_number += 1;
 	//echo date('Ymd')-7;
-	$change_url = str_replace('&','!',$tKeyword['url']);  //url转向出现&问题的解决
-	$change_url = str_replace('+','^',$change_url);  //url转向出现+问题的解决
+	//$change_url = str_replace('&','!',$tKeyword['url']);  //url转向出现&问题的解决
+	//$change_url = str_replace('+','^',$change_url);  //url转向出现+问题的解决
 	echo '<tr>
 			<td class="table-grid">'.$form_number.'</td>
-			<td class="table-grid"><a href="#" class="easyui-linkbutton" onclick=\'showChart("'.$tKeyword['number'].'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$chart_date_start.'","'.$chart_date_end.'","'.$tKeyword['time'].'")\'>'.substr($tKeyword['url'],0,40).'</a></td>
-			<td class="table-grid">'.$tKeyword['title'].'</td>
-			<td class="table-grid">'.$tKeyword['time'].'</td>
-			<td class="table-grid">'.$tKeyword['comefrom'].'</td>
-			<td class="table-grid">'.$tKeyword['number'].'</td>
-			<td class="table-grid"><a href="#" class="easyui-linkbutton" onclick=\'whitelistadd("'.$change_url.'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$tKeyword['keyword'].'","'.$tKeyword['time'].'","'.$tKeyword['number'].'","'.$tKeyword['title'].'","keyword.php")\'>加入</a></td>
+			<td class="table-grid">'.substr($tKeyword['title'],0,52).'</td>
+			<td class="table-grid"><a href="'.$tKeyword['url'].'" class="easyui-linkbutton" >'.substr($tKeyword['url'],0,36).'</a></td>
+			<td class="table-grid" style="text-align:center">'.$tKeyword['time'].'</td>
+			<td class="table-grid" style="text-align:center">'.$tKeyword['comefrom'].'</td>
+			<td class="table-grid" style="text-align:center" onclick=\'showChart("'.$tKeyword['number'].'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$chart_date_start.'","'.$chart_date_end.'","'.$tKeyword['time'].'")\'>'.$tKeyword['number'].'</td>
+			<td class="table-grid" style="text-align:center"><a href="#" class="easyui-linkbutton" onclick=\'whitelistadd("'.$tKeyword['url'].'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$tKeyword['keyword'].'","'.$tKeyword['time'].'","'.$tKeyword['number'].'","'.$tKeyword['title'].'","keyword.php")\'>加入</a></td>
 		</tr>';
   }
   	
