@@ -1,7 +1,7 @@
 
 <?php echo '	<div region="north" border="true" class="cs-north">
 		<div class="cs-north-bg">
-			<div class="cs-north-logo">天目--VPN信息巡查系统</div>
+			<div class="cs-north-logo">天珣--VPN信息巡查系统</div>
 			<div class="cs-north-menu">
 			<tr><a href="index.php" class="cs-navi-tab">首页</a>&nbsp;</tr>
 			<tr><a href="javascript:void(0);" src="setup.php" class="cs-navi-tab">设置</a>&nbsp;<tr>

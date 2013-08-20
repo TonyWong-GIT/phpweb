@@ -25,6 +25,9 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
    	}
 
 }
+function openurl(url){
+	window.open(url);
+}
 </script>
 <!--<script type="text/javascript"  language="JavaScript" src="js/pagination.js"></script>-->
 
@@ -56,15 +59,16 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
   $comefrom = '';
 
   if($_GET['form_task']!='' and $_GET['form_type']!=''){
-	  $task = $_GET['form_task'];
-	  $type = $_GET['form_type'];
+	  $task = str_replace('#',' ',$_GET['form_task']);
+	  $type = str_replace('#',' ',$_GET['form_type']);
   }else{
 	  $task = $_GET['task'];
 	  $type = $_GET['type'];
 	  //$task = substr(substr($task,1),0,strlen($task)-2);
 	  //$type = substr(substr($type,1),0,strlen($type)-2);//去掉传递过来的字符串的左右"",有时候会出现此问题，不清楚是什么问题
   }
-
+  $form_task = str_replace(' ','#',$task);
+  $form_type = str_replace(' ','#',$type);
   $res_day = 'select * from `metaetc` where 1';
   $rows_day = mysql_query($res_day);
   while($row_day = mysql_fetch_array($rows_day)){
@@ -82,8 +86,8 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
 
   echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 
-  echo '<input type="hidden" name="form_task" value='.$task.'>';
-  echo '<input type="hidden" name="form_type" value='.$type.'>';
+  echo '<input type="hidden" name="form_task" value='.$form_task.'>';
+  echo '<input type="hidden" name="form_type" value='.$form_type.'>';
   echo '起始时间:'.'<input name="start_date" type="text" class="easyui-datebox" value="'.$form_start_date.'">';
   echo '终止时间:'.'<input name="end_date" type="text" class="easyui-datebox" value="'.$form_end_date.'" >';
   echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -98,7 +102,6 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
   echo '</form>';
   echo '</div>';
   echo '<div class="table-content">';
-
   echo '<table class="table-center">';
   echo '<tr>
 		<th width="30px" class="table-center-th">编号</th>
@@ -237,7 +240,6 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
   }
 
   $chart_date_end = $chart_month.'/'.$chart_day.'/'.$chart_year;
-
   //echo $chart_date_end;  //  8/5/2013
   $res_count = mysql_query($sql_count);
   $resKeyword = mysql_query($sql_query);
@@ -258,10 +260,16 @@ function whitelistadd(url, comefrom, task, type, keyword, time, number, title, s
 		//$test = str_replace('&','!','http://csal2007.studentenweb.org/viewthread.php?extra=page%3d1&tid=38840');
 		//$change_url = str_replace('&','!',$tKeyword['url']);  //url转向出现&问题的解决
 		//$change_url = str_replace('+','^',$change_url);  //url转向出现+问题的解决
+		$openurl_url = $tKeyword['url'];
+		$openurl_0_4 = substr($tKeyword['url'],0,4);
+		if($openurl_0_4 != 'http'){
+			$openurl_url = 'http://'.$tKeyword['url'];
+		}
+		//$title_td = iconv("UTF-8","gb2312",$tKeyword['title']);
 		echo '
 					<td class="table-grid">'.$form_number.'</td>
-					<td class="table-grid">'.substr($tKeyword['title'],0,52).'</td>
-					<td class="table-grid"><a href="'.$tKeyword['url'].'" class="easyui-linkbutton" >'.substr($tKeyword['url'],0,36).'</a></td>
+					<td class="table-grid">'.$tKeyword['title'].'</td>
+					<td class="table-grid"><a href="#" class="easyui-linkbutton" onclick=\'openurl("'.$openurl_url.'")\'>'.substr($tKeyword['url'],0,36).'</a></td>
 					<td class="table-grid" style="text-align:center">'.$tKeyword['time'].'</td>
 					<td class="table-grid" style="text-align:center">'.$tKeyword['comefrom'].'</td>
 					<td class="table-grid" style="text-align:center" onclick=\'showChart("'.$tKeyword['number'].'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$chart_date_start.'","'.$chart_date_end.'","'.$tKeyword['time'].'")\'>'.$tKeyword['number'].'</td>';

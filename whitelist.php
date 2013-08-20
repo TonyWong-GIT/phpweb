@@ -24,6 +24,9 @@ function whitelistdel(url, comefrom, task, type, keyword, time, number, title)
    	}
 
 }
+function openurl(url){
+	window.open(url);
+}
 </script>
 <?php
   $con = mysql_connect("localhost","root","1234");
@@ -47,8 +50,8 @@ function whitelistdel(url, comefrom, task, type, keyword, time, number, title)
   $form_page_number = $form_number+$form_page;
 
   if($_GET['form_task']!='' and $_GET['form_type']!=''){
-	  $task = $_GET['form_task'];
-	  $type = $_GET['form_type'];
+	  $task = str_replace('#',' ',$_GET['form_task']);
+	  $type = str_replace('#',' ',$_GET['form_type']);
   }else{
 	  $task = $_GET['task'];
 	  $type = $_GET['type'];
@@ -63,7 +66,8 @@ function whitelistdel(url, comefrom, task, type, keyword, time, number, title)
   }
   //echo '-----------'.$form_day;
   $form_day_start = $form_day-2*$form_day;
-
+  $form_task = str_replace(' ','#',$task);
+  $form_type = str_replace(' ','#',$type);
   $form_start_date = $_GET['start_date'];
   $form_end_date = $_GET['end_date'];
 
@@ -74,8 +78,8 @@ function whitelistdel(url, comefrom, task, type, keyword, time, number, title)
   echo '<div region="north" border="true" class="menu-north">';
   echo '<form action="whitelist.php" method="get" name="form">';
   echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-  echo '<input type="hidden" name="form_task" value='.$task.'>';
-  echo '<input type="hidden" name="form_type" value='.$type.'>';
+  echo '<input type="hidden" name="form_task" value='.$form_task.'>';
+  echo '<input type="hidden" name="form_type" value='.$form_type.'>';
   echo '起始时间:'.'<input name="start_date" type="text" class="easyui-datebox"  value="'.$form_start_date.'">';
   echo '终止时间:'.'<input name="end_date" type="text" class="easyui-datebox"  value="'.$form_end_date.'">';
   echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -248,10 +252,15 @@ function whitelistdel(url, comefrom, task, type, keyword, time, number, title)
 	//echo date('Ymd')-7;
 	//$change_url = str_replace('&','!',$tKeyword['url']);  //url转向出现&问题的解决
 	//$change_url = str_replace('+','^',$change_url);  //url转向出现+问题的解决
+	$openurl_url = $tKeyword['url'];
+	$openurl_0_4 = substr($tKeyword['url'],0,4);
+	if($openurl_0_4 != 'http'){
+		$openurl_url = 'http://'.$tKeyword['url'];
+	}
 	echo '<tr class="tr-background">
 			<td class="table-grid">'.$form_number.'</td>
-			<td class="table-grid">'.substr($tKeyword['title'],0,52).'</td>
-			<td class="table-grid"><a href="'.$tKeyword['url'].'" class="easyui-linkbutton" >'.substr($tKeyword['url'],0,36).'</a></td>
+			<td class="table-grid">'.$tKeyword['title'].'</td>
+			<td class="table-grid"><a href="#" class="easyui-linkbutton" onclick=\'openurl("'.$openurl_url.'")\'>'.substr($tKeyword['url'],0,36).'</a></td>
 			<td class="table-grid" style="text-align:center">'.$tKeyword['time'].'</td>
 			<td class="table-grid" style="text-align:center">'.$tKeyword['comefrom'].'</td>
 			<td class="table-grid" style="text-align:center" onclick=\'showChart("'.$tKeyword['number'].'","'.$tKeyword['comefrom'].'","'.$tKeyword['task'].'","'.$tKeyword['type'].'","'.$chart_date_start.'","'.$chart_date_end.'","'.$tKeyword['time'].'")\'>'.$tKeyword['number'].'</td>

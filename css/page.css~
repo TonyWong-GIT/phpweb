@@ -23,7 +23,7 @@ a:active {
 	background:#B3DFDA;
 }
 .menu-north {
-	height:25px;
+	height:5%;
 	padding: 5px 5px 5px 5px;
 	border:1px solid #d3d3d3;
 	background-color: #F0F0F0;
@@ -154,7 +154,7 @@ a:active {
 }
 
 .table-content {
-	height:492px;
+	height:90%;
 	width:100%;
 	font-size:12px;
 	overflow: scroll;
@@ -209,5 +209,5 @@ a:active {
 }
 .chart-div {
 	position: absolute;
-	left: 300px;
+	left: 370px;
 }
