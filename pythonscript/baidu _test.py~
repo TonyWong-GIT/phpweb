@@ -76,7 +76,6 @@ def do_search(table_task, table_type, table_keyword,host,page):
 		 	return
 		pagenumber = pagenumber + 10
 		print pagenumber;
-		time.sleep(2)
 def get_page_data(page):
 	page_cmp = urllib2.Request(page)
 	get_page = urllib2.urlopen(page_cmp)
@@ -102,11 +101,11 @@ if __name__ == '__main__':
   cur_webpage = conn.cursor()
   cur_timerecord = conn.cursor()
   cur_keyword = conn.cursor()
-  cur_keyword.execute('select * from `keyword` where 1')
-  rows_keyword = cur_keyword.fetchall()
+  #cur_keyword.execute('select * from `keyword` where 1')
+  #rows_keyword = cur_keyword.fetchall()
   print "开始检索。。。\n" 
-  for row_keyword in rows_keyword:
-      search(row_keyword[2], row_keyword[1], row_keyword[0],'百度',10)
+  #for row_keyword in rows_keyword:
+  search('类VPN服务', 'GFW', 'GFW VPN  “客户端 下载”','百度',10)
   conn.commit()
   cur_webpage.close()
   cur_keyword.close()
